@@ -1,0 +1,204 @@
+{#
+ * signUp.html
+ *
+ * Author: Joel Ruiz
+ * Copyright (c) HR parser. All rights reserved.
+ *#}
+
+{% extends 'signInUp/layout.html' %}
+
+{% block title %}SignUp page{% endblock %}
+{% block description %}HR parser page to sign up users{% endblock %}
+
+{% block content %}
+
+    <!-- Lets always display the signIn page. In this way, during signUp process,
+           the signIn page is displayed on the background -->
+    {{ include('signInUp/signIn.html') }}
+
+    <!----------------------------------- SIGN UP PAGE DEFINITION ----------------------------------->
+    <!-- SignUp page display property set here to avoid flickering effects caused by doing this later.
+         This flickering effect happens in scenarios where SignUp form is submitted and page is re-served again -->
+	 <div class="signUpPage" id="signUpPage" style="display:
+		 						                            {% if (h_sUDialogFormSubmitted) %} 
+								                                   block 
+								                            {% else %} 
+								                                   none 
+								                            {% endif %}">
+
+        <!-- SIGN UP SCROLLABLE DIV -->
+        <!-- Div used to simply allocate the signUpDialog and avoid that scrolling hides
+             the address bar and impacts how the background(signInPage) looks like.
+             This is a discovered workaround. -->
+        <div class="signUpScrollableDiv" id="signUpScrollableDiv">
+
+            <!-- Top vertical spacer when SignUp dialog overflows -->
+            <!-- Change the height of the upper vertical spacer when confirmationEmail dialog is displayed -->
+            <div class="signUpVerticalSpacer"></div>
+
+            <!-- SIGN UP DIALOG -->
+            <!-- SignUp dialog display property set here to avoid flickering effects caused by doing this later.
+                 TO DO: This flickering effect happens in scenarios where SignUp button is pressed (form is submitted) -->
+            <div id="signUpDialog">
+
+                <!-- This close mark closes the SignUp dialog, hides the SignUp page 
+                     and requests the SignIn page -->
+                <div id="signUpDialogCloseMarkSvg" onclick="closeSignUpDialog(300);"></div>
+
+                <!-- Div to place logo -->
+                <div class="logoDiv">
+                    <img src="{{ doc_root }}img/LogoHRParser.png" alt="HRparser logo">
+                </div>
+
+                <!-- SIGN UP FORM DIV -->
+                <div id="signUpFormDiv">
+                    <p>Sign up to access the application</p>
+
+                    <!-- SIGN UP FORM -->
+                    <form action="{{ doc_root }}signUp/" method="POST" class="signUpForm">
+                        <!-- INPUTS DIV -->
+                        <div class="inputsDiv">
+
+                            <div>
+                            <input type="text" id="signUpName" name="signUpFirstName" placeholder="First Name" value="{{ h_sUUser.signUpFirstName }}" >
+                            <span class="signUpErrorMsg">{{ h_sUErrors.signUpFirstName }} </span>
+                            </div>
+
+                            <div>
+                            <input type="text" id="signUpLastName" name="signUpLastName" placeholder="Last Name" value="{{ h_sUUser.signUpLastName }}">
+                            <span class="signUpErrorMsg">{{ h_sUErrors.signUpLastName }} </span>
+                            </div>   
+
+                            <div>
+                            <select id="selectCountry" name="country">
+                                <option style="color:gray" value="null">Select a country</option>
+                                {% for country in h_countries %}
+                                {%     if(country != h_sUUser.country)  %}
+                                <option style="color:black" value="{{ country }}">{{ country }}</option>
+                                {%     else  %}
+                                <option style="color:black" value="{{ country }}" selected="selected">{{ country }}</option>
+                                {%     endif %}
+                                {% endfor    %}
+                            </select>
+			                <span class="signUpErrorMsg">{{ h_sUErrors.country }} </span>
+                            </div>
+
+                            <div>
+                            <input type="email" id="signUpEmail" name="signUpEmail" placeholder="Email" value="{{ h_sUUser.signUpEmail }}">
+                            <span class="signUpErrorMsg">{{ h_sUErrors.signUpEmail }} </span>
+                            </div>
+
+                            <div>
+                            <input type="password" id="signUpPwd" name="signUpPwd" placeholder="Password">
+                            <span class="signUpErrorMsg">{{ h_sUErrors.signUpPwd|first }} </span>
+			                {% for error in h_sUErrors.signUpPwd[1:] %}
+			                    <span class="signUpErrorMsg">{{ error }}</span>
+			                {% endfor %}
+                            </div>
+
+                            <div>
+                            <input type="password" id="signUpConfPwd" name="signUpConfPwd" placeholder="Confirm Password">
+                            <span class="signUpErrorMsg">{{ h_sUErrors.signUpConfPwd }} </span>
+                            </div>
+
+                            <div>
+                            <input type="checkbox" id="signUpTerms" name="signUpTerms" value="true">
+                            <span id="signUpTermsText">I agree to the </span><span href="" class="emulatedLink" id="signUpTermsLink" onclick="showPrivacyPoliciesAndTermsAndConditionsDialog(200);">Privacy Policy and Terms & Conditions</span>
+                            <span class="signUpErrorMsg">{{ h_sUErrors.signUpTerms }} </span>
+                            </div>
+
+                        </div> <!-- INPUTS DIV -->
+
+                        <!-- Sign up button -->
+                        <input type="submit" name="signUpForm" value="Sign Up" id="signUpBtn">
+
+                        <div class="signInDiv">
+                            <p>Already a user? </p>
+                            <!-- Next link closes the SignUp dialog, hides the SignUp page 
+                                 and requests the SignIn page -->
+                            <span href="" class="emulatedLink" onclick="closeSignUpDialog(300);">LOG IN</span>
+                        </div>
+                    </form> <!-- SIGN UP FORM -->
+                </div> <!-- SIGN UP FORM DIV -->
+            </div> <!-- SIGN UP DIALOG -->
+
+            <!-- CONFIRMATION EMAIL DIALOG -->
+            <!-- ConfirmationEmail dialog display property set here to avoid flickering effects caused by doing this later.
+                 This flickering effect happens in scenarios where SignUp button is pressed (form is submitted) -->
+            <div id="confirmationEmailDialog" 
+                 style="display:
+				{% if(h_sUDialogFormSubmitted and not h_sUValidationInvSts) %}
+				       none
+				{% else %}
+				       none
+				{% endif %}">
+		        <!-- Next close mark closes the confirmationEmail dialog, hides the SignUp page 
+	                 and requests the SignIn page -->
+                <div id="confirmationEmailCloseMarkSvg" onclick="closeConfirmationEmailDialog(200);"></div>
+
+                <div id="confirmationEmailSvg"></div>
+                <h1 class="dialogText" style="font-size: 1.3em">THANKS FOR SIGNING UP!</h1>
+
+
+                <p class="dialogText" style="font-size: 0.9em">We have sent you and email confirmation. Check your inbox and confirm your email. Then you'll be redirected to HR Parser domain to sign in.</p>
+
+                <hr>
+
+                <div id="resendEmailContainer"><p id="resendEmailText">If you did not get any email </p><span class="emulatedLink" id="resendEmailLink" style="font-size: 0.8">Resend email confirmation</span></div>
+            </div> <!-- CONFIRMATION EMAIL DIALOG -->
+
+            <!-- PRIVACY POLICY & TERMS DIALOG -->
+            <div id="privacyTermsDialog">
+                <div id="privacyTermsCloseMarkDiv" onclick="closePrivacyPoliciesAndTermsAndConditionsDialog(250);"></div>
+		        <hr>
+                <!-- PRIVACY TERMS BLOCK -->
+		        <div id="privacyTermsBlock">
+		            <h1>Privacy Policy</h1>
+                    <div id="privacyTermsDescription"> </div>
+                    <button type="button" id="privacyTermsCloseButton" onclick="closePrivacyPoliciesAndTermsAndConditionsDialog(250);">Close</button>
+                    <hr>
+		        </div> <!-- PRIVACY TERMS BLOCK -->
+
+            </div> <!-- PRIVACY POLICY & TERMS DIALOG -->
+
+            <!-- Bottom vertical spacer when SignUp dialog overflows -->
+            <!-- Change the height of the bottom vertical spacer when confirmationEmail dialog is displayed
+                 and scroll bar is active (mobile devices) to center dialog vertically. -->
+            <div class="signUpVerticalSpacer"></div>
+        </div> <!-- SIGN UP SCROLLABLE DIV -->
+    </div> <!-- SIGN UP PAGE -->
+
+    <!-- Import php variables into javascript -->
+    <script type="text/javascript">
+        /* Twig variables */
+        var doc_root = "{{ doc_root }}";
+
+        var h_sUDialogFormSubmitted = "{{ h_sUDialogFormSubmitted }}";
+        var h_sUErrors = "{{ h_sUValidationInvSts }}";
+
+        /********************************************************************/
+        /****************** HTML ELEMENTS ID REFERENCES *********************/
+        /********************************************************************/
+
+        /***** SignUp Page references *****/
+        var signUpPage = document.getElementById("signUpPage");
+        var signUpScrollableDiv = document.getElementById("signUpScrollableDiv");
+        var signUpVerticalSpacer = document.getElementsByClassName("signUpVerticalSpacer");
+        var signUpDialog = document.getElementById("signUpDialog");
+        var signUpFormDiv = document.getElementById("signUpFormDiv");
+
+        var confirmationEmailDialog = document.getElementById("confirmationEmailDialog");
+
+        var privacyTermsDialog = document.getElementById("privacyTermsDialog");
+        var privacyTermsBlock = document.getElementById("privacyTermsBlock");
+
+        /***** References required for responsive design *****/
+        var signInPage = document.getElementById("signInPage");
+    </script>
+
+    <!-- Web site signUp javascripts -->
+    <script type="text/javascript" src="{{ doc_root }}js/signInUp/utilities.js"></script>
+    <script type="text/javascript" src="{{ doc_root }}js/signInUp/signUp.js"></script>
+
+{% endblock %}
+ 

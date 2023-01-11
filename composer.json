@@ -1,0 +1,11 @@
+{
+    "require": {
+        "ezyang/htmlpurifier": "^4.16",
+        "twig/twig": "^3.4"
+    },
+    "autoload": {
+	"psr-4": {
+	    "HRparser\\":"src/classes/"
+	}
+    }
+}

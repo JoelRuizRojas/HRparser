@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+{#
+ * layout.html
+ *
+ * Author: Joel Ruiz
+ * Copyright (c) HR parser. All rights reserved.
+ *#}
+
+<html lang="en-US">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>{% block title %}HRparser page{% endblock %}</title>
+      <meta name="description" content="{% block description %}HR parser page to sign in/up users{% endblock %}">
+
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <link rel="stylesheet" href="{{ doc_root }}css/signInUp/styles.css">
+      <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  </head>
+  <body>
+      
+      <!-- Block dedicated to reserve a spot for any of next:
+    	   1) Sign in page
+           2) Sign up page which includes:
+    	       a) Confirmation email dialog (after signing up)
+	           b) Show the Terms&Conditions and Privacy policies
+           3) Recover password feature
+      -->
+      {% block content %}{% endblock %}
+
+  </body>
+</html>

@@ -1,0 +1,82 @@
+{#
+ * signIn.html
+ *
+ * Author: Joel Ruiz
+ * Copyright (c) HR parser. All rights reserved.
+ *#}
+
+{% extends 'signInUp/layout.html' %}
+
+{% block title %}SignIn page{% endblock %}
+{% block description %}HR parser page to sign in users{% endblock %}
+
+{% block content %}
+
+    <!----------------------------------- SIGN IN PAGE DEFINITION ----------------------------------->
+    <!-- To avoid the flickering effect when a dialog is submitted, lets wait until those dialog are
+         displayed and then show the SignInPage in the background -->
+    <div class="signInPage" id="signInPage"
+        style="display:
+                      {% if(h_sUDialogFormSubmitted or h_fPDialogFormSubmitted or h_vEDialogFormSubmitted or h_nPDialogFormSubmitted) %}    
+                             none
+                      {% else  %}
+                             block
+                      {% endif %}">
+
+        <!-- Div to place big signIn image -->
+        <div class="signInImgDiv"></div>
+
+        <!-- Sign In dialog -->
+        <aside class="signInDialog">
+
+            <!-- Div to place logo -->
+            <div class="logoDiv">
+                <img src="{{ doc_root }}img/LogoHRParser.png" alt="HRparser logo">
+            </div>
+
+            <!-- Div to place the sign ip form -->
+            <div class="signInFormDiv">
+                <p>Sign in with your personal account</p>
+
+                <!-- Sign in form -->
+                <form action="" method="get" class="signInForm">
+                    <div class="inputsDiv">
+                        <input type="email" id="signInEmail" placeholder="Email">
+                        <input type="password" id="signInPwd" placeholder="Password">
+                    </div>
+
+                    <div class="signInHelpDiv">
+                        <p>Wrong credentials</p>
+                        <span href="" class="emulatedLink" id="forgotPwdLink" onclick="requestRecoverPasswordPage();">Forgot Password?</a>
+                    </div>
+
+                    <!-- Sign in button -->
+                    <input type="submit" value="Sign in" id="signInBtn">
+
+                    <div class="signUpDiv">
+                        <p>Need an account? </p>
+                        <span href="" class="emulatedLink" id="signUpLink" onclick="requestSignUpPage();">SIGN UP</span>
+                    </div>
+
+                </form> <!-- SIGN IN FORM -->
+            </div> <!-- SIGN IN FORM DIV -->
+        </aside> <!-- SIGN IN DIALOG -->
+    </div> <!-- SIGN IN PAGE -->
+
+    <!-- Import php variables into javascript -->
+    <script type="text/javascript">
+        /* Twig variables */
+        var doc_root = "{{ doc_root }}";
+
+        /********************************************************************/
+        /****************** HTML ELEMENTS ID REFERENCES *********************/
+        /********************************************************************/
+
+    </script>
+
+    <!-- Web site signIn javascripts -->
+    <script type="text/javascript" src="{{ doc_root }}js/signInUp/utilities.js"></script>
+    <script type="text/javascript" src="{{ doc_root }}js/signInUp/signIn.js"></script>
+
+{% endblock %}
+
