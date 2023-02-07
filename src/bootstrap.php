@@ -11,12 +11,19 @@ define('APP_ROOT', dirname(__FILE__, 2));               // Application root
 
 require APP_ROOT . '/config/config.php';                // Configuration data
 require APP_ROOT . '/vendor/autoload.php';              // Autoload libraries
+require APP_ROOT . '/src/utilities/functions.php';      // General functions
 
 if(DEV == false){                                       // If not in development
     set_exception_handler('handle_exception');          // Set exception handler
     set_error_handler('handler_error');                 // Set error handler
     register_shutdown_function('handle_shutdown');      // Set shutdown handler
 }
+
+// Create CMS object
+$cms = new \HRparser\CMS\CMS($dsn, $username, $password);
+
+// After this point we do not need the database config data
+unset($dsn, $username, $password);
 
 // Twig extension configuration
 $twig_options['cache'] = APP_ROOT . '/var/cache';       // Path to Twig cache folder. Cache php template pages

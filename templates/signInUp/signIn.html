@@ -39,19 +39,19 @@
                 <p>Sign in with your personal account</p>
 
                 <!-- Sign in form -->
-                <form action="" method="get" class="signInForm">
+                <form action="{{ doc_root }}signin/" method="post" class="signInForm">
                     <div class="inputsDiv">
-                        <input type="email" id="signInEmail" placeholder="Email">
-                        <input type="password" id="signInPwd" placeholder="Password">
+                        <input type="email" name="signInEmail" id="signInEmail" placeholder="Email" required>
+                        <input type="password" name="signInPwd" id="signInPwd" placeholder="Password" required>
                     </div>
 
                     <div class="signInHelpDiv">
-                        <p>Wrong credentials</p>
-                        <span href="" class="emulatedLink" id="forgotPwdLink" onclick="requestRecoverPasswordPage();">Forgot Password?</a>
+                        <p>{{ h_sIError }} </p>
+                        <span href="" class="emulatedLink" id="forgotPwdLink" onclick="requestResetPasswordPage();">Forgot Password?</a>
                     </div>
 
                     <!-- Sign in button -->
-                    <input type="submit" value="Sign in" id="signInBtn">
+                    <input type="submit" name="signInForm" value="Sign in" id="signInBtn">
 
                     <div class="signUpDiv">
                         <p>Need an account? </p>

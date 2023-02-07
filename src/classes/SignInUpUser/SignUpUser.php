@@ -10,25 +10,25 @@
 namespace HRparser\SignInUpUser;                 // Namespace declaration
 
 /**
- * @var $vE_INPUTS_NUM Number of inputs in verify email form
- *                     5 codes + hidden email + submit button
- * */
-define("vE_INPUTS_NUM", 7);
-
-/**
- * @var $EMAIL_MAX_DISPLAY_LENGTH of user email in verfication email dialog
- *    
- * */
-define("EMAIL_MAX_DISPLAY_LENGTH", 35);
-
-/**
  * Class SignUpUser
  * 
  * Template to create the resources to help a user on the signing
  * process into the application.
  */
 class SignUpUser
-{ 
+{
+    /**
+     * @var $VE_INPUTS_NUM Number of inputs in verify email form
+     *
+     **/
+    const VE_INPUTS_NUM = 5;
+
+    /**
+     * @var $EMAIL_MAX_DISPLAY_LENGTH of user email in verfication email dialog
+     *
+     **/
+    const EMAIL_MAX_DISPLAY_LENGTH = 35;
+
     /**
      * Class constructor
      *
@@ -52,7 +52,7 @@ class SignUpUser
         // Initialize array to process the user input data
         $this->userProcessed = $this->userRaw; 
 
-            // Initialize array of errors for each of the input fields
+        // Initialize array of errors for each of the input fields
         $this->errors[$this->map['name']]        = "";
         $this->errors[$this->map['lastName']]    = "";
         $this->errors[$this->map['country']]     = "";
@@ -98,9 +98,9 @@ class SignUpUser
     {
         // Set up validation filter matrix
         $validation_filters[$this->map['name']]['filter']                 = FILTER_VALIDATE_REGEXP;
-        $validation_filters[$this->map['name']]['options']['regexp']      = '/^.{3,15}$/';
+        $validation_filters[$this->map['name']]['options']['regexp']      = '/^.{3,25}$/';
         $validation_filters[$this->map['lastName']]['filter']             = FILTER_VALIDATE_REGEXP;
-        $validation_filters[$this->map['lastName']]['options']['regexp']  = '/^.{3,15}$/';
+        $validation_filters[$this->map['lastName']]['options']['regexp']  = '/^.{3,25}$/';
         $validation_filters[$this->map['email']]['filter']                = FILTER_VALIDATE_EMAIL;
         $validation_filters[$this->map['email']]['flags']                 = FILTER_FLAG_EMAIL_UNICODE;
         $validation_filters[$this->map['terms']]['filter']                = FILTER_VALIDATE_BOOLEAN;
@@ -148,18 +148,7 @@ class SignUpUser
         // Sanitize the fields to be published directly to client browser
         $this->userRaw[$this->map['name']]      = filter_var($this->userRaw[$this->map['name']], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $this->userRaw[$this->map['lastName']]  = filter_var($this->userRaw[$this->map['lastName']], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $this->userRaw[$this->map['email']]     = filter_var($this->userRaw[$this->map['email']], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-        // If validation has suceeded, then clear all fields from raw array
-        if(!$this->validationInvalid){
-            $this->userRaw[$this->map['name']]         = "";
-            $this->userRaw[$this->map['lastName']]     = "";
-            $this->userRaw[$this->map['email']]        = "";
-            $this->userRaw[$this->map['country']]      = "null";
-            $this->userRaw[$this->map['pwd']]          = "";
-            $this->userRaw[$this->map['confPwd']]      = "";
-            $this->userRaw[$this->map['terms']]        = false;
-        }
+        $this->userRaw[$this->map['email']]     = filter_var($this->userRaw[$this->map['email']], FILTER_SANITIZE_FULL_SPECIAL_CHARS); 
 
         return $this->userRaw;
     }
@@ -193,8 +182,8 @@ class SignUpUser
             $out = filter_var($pwd, FILTER_VALIDATE_REGEXP, $settings);
 
             if($out === false){
-            $retVal[$errorIdx] = $errors[$i];
-            $errorIdx++;
+                $retVal[$errorIdx] = $errors[$i];
+                $errorIdx++;
             }
         }
 
@@ -220,8 +209,6 @@ class SignUpUser
 
     /**
      * Validates the input email
-     *   Confirm the given email is part of a user registered
-     *     Send recovery code to email
      *
      * @param $email User email        (IN)
      * @return $validationError Result of user data validation
@@ -233,47 +220,33 @@ class SignUpUser
 
         $validationError = $validatedEmail ?
                            '' : 'Email not valid';
-
-        // Check the given email belongs to a registered user
-
-        // Send recovery code to email
-
+ 
         return $validationError;
     }
 
     /**
-     * Verifies the given codes to recover user password
-     *   Confirm the given verification codes match the ones temporarily store in dbs
+     * Verifies the format of given codes to recover user password
      *
      * @param $verificationCodes Array of verification codes    (IN)
      * @return $validationError Result of the codes validation
      */
     public static function rcvrUsrPwd_codesValidation($verificationCodes): string
     {
-        // Check the length of input array. 5 codes + Hidden email + SubmitButton
-        if(count($verificationCodes) != vE_INPUTS_NUM)
+        // Check the length of input array. 5 codes 
+        if(count($verificationCodes) != self::VE_INPUTS_NUM)
             return 'Invalid Code';
 
         // Iterate over every code and apply validation
-        $i = 0;
         foreach($verificationCodes as $key => $code){
-            if($i >= (vE_INPUTS_NUM - 2))
-                break;
-
             $settings['options']['regexp'] = '/^[0-9]$/';
             $out = filter_var($code, FILTER_VALIDATE_REGEXP, $settings);
 
             if($out === false){
                 return 'Invalid Code';
             }
-            $i++;
         }
 
-        /* Confirm that given codes match the ones temporarily
-         * generated for the user to recover his/her password */
-        $validationError = '';
-
-        return $validationError;
+        return "";
     }
 
     /**
@@ -295,7 +268,7 @@ class SignUpUser
             $sanitizedEmail[0] = $email;
 
             // Populate the truncated version of email
-            if(strlen($email) > EMAIL_MAX_DISPLAY_LENGTH){
+            if(strlen($email) > self::EMAIL_MAX_DISPLAY_LENGTH){
                 $parts = explode("@", $email);
                 $username = substr($parts[0], 0, 15);
                 $domainName = $parts[1];

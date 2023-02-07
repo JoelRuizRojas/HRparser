@@ -1,5 +1,5 @@
 /**
- * recoverPassword.js
+ * resetPassword.js
  *
  * Author: Joel Ruiz
  * Copyright (c) HR parser. All rights reserved.
@@ -7,18 +7,18 @@
 
     /********************************************************************/
     /********************************************************************/
-    /***************** RECOVER PASSWORD PAGE UTILITIES ******************/
+    /******************* RESET PASSWORD PAGE UTILITIES ******************/
     /********************************************************************/
     /********************************************************************/
 
     /**
-     * Shows the RecoverPassword Page, forgotPassword dialog is shown by default.
+     * Shows the ResetPassword Page, forgotPassword dialog is shown by default.
      *
      * @param dlgFadeInTransTime. Dialog fade-in transition time in ms.
      * @return none
      */
     function showRecoverPasswordPage(dlgFadeInTransTime){
-        // Show RecoverPassword Page and then dialog
+        // Show ResetPassword Page and then dialog
         recoverPasswordPage.style.display = "block";
         forgotPwdDialog.style.display = "block";
 
@@ -50,7 +50,7 @@
         showPreviousGeneralPurposeDialog(dlgFadeOutTransTime, forgotPwdDialog);
 
         /* Since the dialog will be eventually closed after effect,
-         * we need to close also the recoverPassword page too */
+         * we need to close also the resetPassword page too */
         window.setTimeout( function(){
             recoverPasswordPage.style.display = "none";
 
@@ -81,7 +81,7 @@
         // Fade out current dialog / fade in previous dialog
         showPreviousGeneralPurposeDialog(dlgFadeOutTransTime, createNewPwdDialog, verifyEmailDialog);
 
-        // To recover the autofocus on first code input
+        // To reset the autofocus on first code input
         verificationCode0.focus();
     }
 
@@ -97,14 +97,25 @@
         confirmNewPwdInput.value = "";
     }
 
+    /**
+     * Clears the error from verification code inputs on
+     * VerifyEmailDialog
+     *
+     * @param none
+     * @return none
+     */
+    function clearInputErrorOnVerifyEmailDialog(xhttp){
+        verifyEmailErrorMsg.innerHTML = " ";
+    }
+
     /********************************************************************/
     /********************************************************************/
-    /************* RECOVER PASSWORD PAGE RENDERING BEHAVIOR *************/
+    /*************** RESET PASSWORD PAGE RENDERING BEHAVIOR *************/
     /********************************************************************/
     /********************************************************************/
     
-    /* Since any of the recoverPassword page dialog forms has been submitted, 
-     * it means the recoverPassword page has just be loaded, lets show it */
+    /* Since any of the resetPassword page dialog forms has been submitted, 
+     * it means the resetPassword page has just be loaded, lets show it */
     if(!h_fPDialogFormSubmitted && !h_vEDialogFormSubmitted && !h_nPDialogFormSubmitted){
         showRecoverPasswordPage(200);
     }
@@ -221,7 +232,7 @@
             showNextGeneralPurposeDialog(300, createNewPwdDialog);
 
             /* Since the dialog will be eventually closed after effect,
-             * we need to close also the recoverPassword page too */
+             * we need to close also the resetPassword page too */
             window.setTimeout( function(){
                 recoverPasswordPage.style.display = "none";
 
@@ -249,7 +260,7 @@
          * design threshold. Perhaps all of these or some are redundant
          * instructions (from above) but just in case */
         if(onMobilePortraitMode()){
-            /* When any of the recoverPassword page dialogs is being shown, hide
+            /* When any of the resetPassword page dialogs is being shown, hide
              * the signIn page normally displayed on background */
             signInPage.style.display = "none";
         }
@@ -283,7 +294,7 @@
     }
     
     /* Window resize event 
-     * SMARTPHONE CONDITIONS to remove signInPage while recovering password (recoverPassword page covers 100%)
+     * SMARTPHONE CONDITIONS to remove signInPage while resetting password (resetPassword page covers 100%)
      * Since we need 2 conditions we can not do it with media query */
     $(window).resize(function(){
         // Get Css root variable to determine if we are on Mobile portrait mode or not
@@ -292,7 +303,7 @@
         /* Behavior when window decreases and reaches the responsive
          * design threshold*/
         if(onMobilePortraitMode){
-            /* When any of the recoverPassword page dialogs is being shown, hide
+            /* When any of the resetPassword page dialogs is being shown, hide
              * the signIn page normally displayed on background */
             signInPage.style.display = "none";
 

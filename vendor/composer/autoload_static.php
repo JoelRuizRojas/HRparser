@@ -22,6 +22,10 @@ class ComposerStaticInit4d1e1522ebf854e644c6448b659e22c9
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
         ),
+        'P' => 
+        array (
+            'PHPMailer\\PHPMailer\\' => 20,
+        ),
         'H' => 
         array (
             'HRparser\\' => 9,
@@ -40,6 +44,10 @@ class ComposerStaticInit4d1e1522ebf854e644c6448b659e22c9
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'HRparser\\' => 
         array (

@@ -12,14 +12,14 @@
     /********************************************************************/
 
     /**
-     * Requests the Recover Password Page
+     * Requests the Reset Password Page
      *
      * @param none
      * @return none
      */
-    function requestRecoverPasswordPage(){
+    function requestResetPasswordPage(){
         // Request the signUp page
-        window.location.href = doc_root +  "recover-password";
+        window.location.href = doc_root +  "reset-password";
     }
 
     /**

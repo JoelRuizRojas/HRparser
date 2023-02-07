@@ -12,6 +12,50 @@
     /********************************************************************/ 
 
     /**
+     * AJAX implementation to request data from page without
+     * refreshing it.
+     *
+     * For POST request, the parameters must be given in x-www-form-urlencoded format
+     * For GET request, the parameters must be already added in url input
+     *
+     * @param requestType, Type of request, either GET or POST
+     * @param url, Page to request
+     * @param params, Parameters for request (intended for POST request type)
+     * @param cFunction, Function to load data into an html element
+     * @return true/false flag to determine if we are in mobile portrait mode or not
+     **/
+    function loadDoc(requestType, url, params, cFunction)
+    {        
+        var xhttp;
+        xhttp = new XMLHttpRequest(); 
+
+        // Perform data request to server
+        xhttp.open(requestType, url, true);
+
+        // Set request header for POST request
+        if(requestType == 'POST'){
+            xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        }
+
+        // Check response
+        xhttp.onreadystatechange = function(){ 
+            // Evaluate response and call processing function of response
+            if((this.readyState == 4) && (this.status == 200)){
+                if(cFunction !== undefined)
+                    cFunction(this);
+            }
+        };
+
+        // Add params to request (if exist)
+        if(params !== undefined){
+            xhttp.send(params);
+        }
+        else{
+            xhttp.send();
+        }
+    }
+
+    /**
      * Checks if we are on mobile portrait mode
      *
      * @param none

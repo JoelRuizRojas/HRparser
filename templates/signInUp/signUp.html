@@ -55,17 +55,17 @@
                     <p>Sign up to access the application</p>
 
                     <!-- SIGN UP FORM -->
-                    <form action="{{ doc_root }}signUp/" method="POST" class="signUpForm">
+                    <form action="{{ doc_root }}signup/" method="POST" class="signUpForm">
                         <!-- INPUTS DIV -->
                         <div class="inputsDiv">
 
                             <div>
-                            <input type="text" id="signUpName" name="signUpFirstName" placeholder="First Name" value="{{ h_sUUser.signUpFirstName }}" >
+                            <input type="text" id="signUpName" name="signUpFirstName" placeholder="First Name" value="{{ h_sUUser.signUpFirstName }}" required>
                             <span class="signUpErrorMsg">{{ h_sUErrors.signUpFirstName }} </span>
                             </div>
 
                             <div>
-                            <input type="text" id="signUpLastName" name="signUpLastName" placeholder="Last Name" value="{{ h_sUUser.signUpLastName }}">
+                            <input type="text" id="signUpLastName" name="signUpLastName" placeholder="Last Name" value="{{ h_sUUser.signUpLastName }}" required>
                             <span class="signUpErrorMsg">{{ h_sUErrors.signUpLastName }} </span>
                             </div>   
 
@@ -84,12 +84,12 @@
                             </div>
 
                             <div>
-                            <input type="email" id="signUpEmail" name="signUpEmail" placeholder="Email" value="{{ h_sUUser.signUpEmail }}">
+                            <input type="email" id="signUpEmail" name="signUpEmail" placeholder="Email" value="{{ h_sUUser.signUpEmail }}" required>
                             <span class="signUpErrorMsg">{{ h_sUErrors.signUpEmail }} </span>
                             </div>
 
                             <div>
-                            <input type="password" id="signUpPwd" name="signUpPwd" placeholder="Password">
+                            <input type="password" id="signUpPwd" name="signUpPwd" placeholder="Password" required>
                             <span class="signUpErrorMsg">{{ h_sUErrors.signUpPwd|first }} </span>
 			                {% for error in h_sUErrors.signUpPwd[1:] %}
 			                    <span class="signUpErrorMsg">{{ error }}</span>
@@ -97,7 +97,7 @@
                             </div>
 
                             <div>
-                            <input type="password" id="signUpConfPwd" name="signUpConfPwd" placeholder="Confirm Password">
+                            <input type="password" id="signUpConfPwd" name="signUpConfPwd" placeholder="Confirm Password" required>
                             <span class="signUpErrorMsg">{{ h_sUErrors.signUpConfPwd }} </span>
                             </div>
 
@@ -144,7 +144,7 @@
 
                 <hr>
 
-                <div id="resendEmailContainer"><p id="resendEmailText">If you did not get any email </p><span class="emulatedLink" id="resendEmailLink" style="font-size: 0.8">Resend email confirmation</span></div>
+                <div id="resendEmailContainer"><p id="resendEmailText">If you did not get any email </p><span class="emulatedLink" id="resendEmailLink" style="font-size: 0.8" onclick="loadDoc('GET', '{{ h_sUResendVerifEmailLink }}');">Resend email confirmation</span></div>
             </div> <!-- CONFIRMATION EMAIL DIALOG -->
 
             <!-- PRIVACY POLICY & TERMS DIALOG -->
