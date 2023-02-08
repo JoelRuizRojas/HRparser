@@ -631,6 +631,9 @@ html, body{
     /* Configure border  */
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+
+    /* Set background color of input to transparent */
+    background-color: transparent;
 }
 
 #signUpName:focus, #signUpLastName:focus, #selectCountry:focus, #signUpEmail:focus, #signUpPwd:focus, #signUpConfPwd:focus{
@@ -1203,6 +1206,9 @@ html, body{
 
     /* Configure border */
     border: 1px solid rgba(0, 0, 0, 0.5);
+
+    /* Set input brackground to transparent */
+    background-color: transparent;
 }
 
 #forgotPwdDialogForm #forgotPwdErrorMsg{
