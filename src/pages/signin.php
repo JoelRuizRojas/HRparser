@@ -9,7 +9,7 @@
 
 
 // Includes
-require APP_ROOT . '/src/utilities/criticalFields.php'; // Import critical fields to be used
+require APP_ROOT_PATH . '/src/utilities/criticalFields.php'; // Import critical fields to be used
 
 use HRparser\SignInUpUser\SignInUser;                   // Namespace usage
 use HRparser\CMS\MemberAttr;

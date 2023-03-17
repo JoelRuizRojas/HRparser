@@ -7,11 +7,11 @@
  * Copyright (c) HR parser. All rights reserved.
  */
 
-define('APP_ROOT', dirname(__FILE__, 2));               // Application root
+define('APP_ROOT_PATH', dirname(__FILE__, 2));          // Application root full path
 
-require APP_ROOT . '/config/config.php';                // Configuration data
-require APP_ROOT . '/vendor/autoload.php';              // Autoload libraries
-require APP_ROOT . '/src/utilities/functions.php';      // General functions
+require APP_ROOT_PATH . '/config/config.php';           // Configuration data
+require APP_ROOT_PATH . '/vendor/autoload.php';         // Autoload libraries
+require APP_ROOT_PATH . '/src/utilities/functions.php'; // General functions
 
 if(DEV == false){                                       // If not in development
     set_exception_handler('handle_exception');          // Set exception handler
@@ -26,10 +26,10 @@ $cms = new \HRparser\CMS\CMS($dsn, $username, $password);
 unset($dsn, $username, $password);
 
 // Twig extension configuration
-$twig_options['cache'] = APP_ROOT . '/var/cache';       // Path to Twig cache folder. Cache php template pages
+$twig_options['cache'] = APP_ROOT_PATH . '/var/cache';  // Path to Twig cache folder. Cache php template pages
 $twig_options['debug'] = DEV;                           // If dev mode, turn debug on
 
-$loader = new Twig\Loader\FilesystemLoader(APP_ROOT . '/templates'); // Twig loader
+$loader = new Twig\Loader\FilesystemLoader(APP_ROOT_PATH . '/templates'); // Twig loader
 $twig   = new Twig\Environment($loader, $twig_options); // Twig environment
 $twig->addGlobal('doc_root', DOC_ROOT);                 // Document root
 

@@ -17,14 +17,8 @@
     {{ include('signInUp/signIn.html') }}
 
     <!----------------------------------- SIGN UP PAGE DEFINITION ----------------------------------->
-    <!-- SignUp page display property set here to avoid flickering effects caused by doing this later.
-         This flickering effect happens in scenarios where SignUp form is submitted and page is re-served again -->
-	 <div class="signUpPage" id="signUpPage" style="display:
-		 						                            {% if (h_sUDialogFormSubmitted) %} 
-								                                   block 
-								                            {% else %} 
-								                                   none 
-								                            {% endif %}">
+    <!-- SignUp page -->
+	 <div class="signUpPage" id="signUpPage">
 
         <!-- SIGN UP SCROLLABLE DIV -->
         <!-- Div used to simply allocate the signUpDialog and avoid that scrolling hides
@@ -43,7 +37,7 @@
 
                 <!-- This close mark closes the SignUp dialog, hides the SignUp page 
                      and requests the SignIn page -->
-                <div id="signUpDialogCloseMarkSvg" onclick="closeSignUpDialog(300);"></div>
+                <div id="signUpDialogCloseMarkSvg"></div>
 
                 <!-- Div to place logo -->
                 <div class="logoDiv">
@@ -103,7 +97,7 @@
 
                             <div>
                             <input type="checkbox" id="signUpTerms" name="signUpTerms" value="true">
-                            <span id="signUpTermsText">I agree to the </span><span href="" class="emulatedLink" id="signUpTermsLink" onclick="showPrivacyPoliciesAndTermsAndConditionsDialog(200);">Privacy Policy and Terms & Conditions</span>
+                            <span id="signUpTermsText">I agree to the </span><span href="" class="emulatedLink" id="signUpTermsLink">Privacy Policy and Terms & Conditions</span>
                             <span class="signUpErrorMsg">{{ h_sUErrors.signUpTerms }} </span>
                             </div>
 
@@ -116,7 +110,7 @@
                             <p>Already a user? </p>
                             <!-- Next link closes the SignUp dialog, hides the SignUp page 
                                  and requests the SignIn page -->
-                            <span href="" class="emulatedLink" onclick="closeSignUpDialog(300);">LOG IN</span>
+                            <span href="" class="emulatedLink" id="signInLink">LOG IN</span>
                         </div>
                     </form> <!-- SIGN UP FORM -->
                 </div> <!-- SIGN UP FORM DIV -->
@@ -134,7 +128,7 @@
 				{% endif %}">
 		        <!-- Next close mark closes the confirmationEmail dialog, hides the SignUp page 
 	                 and requests the SignIn page -->
-                <div id="confirmationEmailCloseMarkSvg" onclick="closeConfirmationEmailDialog(200);"></div>
+                <div id="confirmationEmailCloseMarkSvg"></div>
 
                 <div id="confirmationEmailSvg"></div>
                 <h1 class="dialogText" style="font-size: 1.3em">THANKS FOR SIGNING UP!</h1>
@@ -144,18 +138,18 @@
 
                 <hr>
 
-                <div id="resendEmailContainer"><p id="resendEmailText">If you did not get any email </p><span class="emulatedLink" id="resendEmailLink" style="font-size: 0.8" onclick="loadDoc('GET', '{{ h_sUResendVerifEmailLink }}');">Resend email confirmation</span></div>
+                <div id="resendEmailContainer"><p id="resendEmailText">If you did not get any email </p><span class="emulatedLink" id="resendAccountVerifEmailLink" style="font-size: 0.8">Resend email confirmation</span></div>
             </div> <!-- CONFIRMATION EMAIL DIALOG -->
 
             <!-- PRIVACY POLICY & TERMS DIALOG -->
             <div id="privacyTermsDialog">
-                <div id="privacyTermsCloseMarkDiv" onclick="closePrivacyPoliciesAndTermsAndConditionsDialog(250);"></div>
+                <div id="privacyTermsCloseMarkDiv"></div>
 		        <hr>
                 <!-- PRIVACY TERMS BLOCK -->
 		        <div id="privacyTermsBlock">
 		            <h1>Privacy Policy</h1>
                     <div id="privacyTermsDescription"> </div>
-                    <button type="button" id="privacyTermsCloseButton" onclick="closePrivacyPoliciesAndTermsAndConditionsDialog(250);">Close</button>
+                    <button type="button" id="privacyTermsCloseButton">Close</button>
                     <hr>
 		        </div> <!-- PRIVACY TERMS BLOCK -->
 
@@ -174,26 +168,8 @@
         var doc_root = "{{ doc_root }}";
 
         var h_sUDialogFormSubmitted = "{{ h_sUDialogFormSubmitted }}";
+        var h_sUResendVerifEmailLink = "{{ h_sUResendVerifEmailLink|raw }}"; // Use raw option to avoid twig changing & by &amp;
         var h_sUErrors = "{{ h_sUValidationInvSts }}";
-
-        /********************************************************************/
-        /****************** HTML ELEMENTS ID REFERENCES *********************/
-        /********************************************************************/
-
-        /***** SignUp Page references *****/
-        var signUpPage = document.getElementById("signUpPage");
-        var signUpScrollableDiv = document.getElementById("signUpScrollableDiv");
-        var signUpVerticalSpacer = document.getElementsByClassName("signUpVerticalSpacer");
-        var signUpDialog = document.getElementById("signUpDialog");
-        var signUpFormDiv = document.getElementById("signUpFormDiv");
-
-        var confirmationEmailDialog = document.getElementById("confirmationEmailDialog");
-
-        var privacyTermsDialog = document.getElementById("privacyTermsDialog");
-        var privacyTermsBlock = document.getElementById("privacyTermsBlock");
-
-        /***** References required for responsive design *****/
-        var signInPage = document.getElementById("signInPage");
     </script>
 
     <!-- Web site signUp javascripts -->

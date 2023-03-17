@@ -30,11 +30,11 @@ else{                                                               // If an adm
 //$id = filter_var($id, FILTER_VALIDATE_INT);                         // Validate ID
 
 // Path to PHP page.
-$php_page = APP_ROOT . '/src/pages/' . $page . '.php'; 
+$php_page = APP_ROOT_PATH . '/src/pages/' . $page . '.php'; 
 
 // Check if PHP page exists
 if(!file_exists($php_page)){                                        // If page does not exist, display custom page
-    $php_page = APP_ROOT . '/src/pages/page-not-found.php';         // Include page not found
+    $php_page = APP_ROOT_PATH . '/src/pages/page-not-found.php';    // Include page not found
 }
 
 // If everything worked ok, display intended page

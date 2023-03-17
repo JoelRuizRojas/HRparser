@@ -220,7 +220,8 @@ html, body{
 .signInPage{
     /* Size constraints */
     width: 100%;
-    height: 100%;        
+    height: 100%;
+    display: block;    
 }
 
 .signInPage .signInImgDiv{
@@ -470,7 +471,7 @@ html, body{
     overflow: hidden; 
 
     /* Display mode is handled at html based on a php condition */   
-    /*display: none;*/
+    display: block;
 }
 
 .signUpScrollableDiv{
@@ -852,7 +853,7 @@ html, body{
     margin: calc(var(--confirmationEmailDialogHeight) * 0.076);
 }
 
-#resendEmailText, #resendEmailLink{
+#resendEmailText, #resendAccountVerifEmailLink{
     /* Define size and limit constraints  */
     margin: 0px;
     padding: 0px;
@@ -1009,7 +1010,7 @@ html, body{
 /***************************************************************************/
 /***************************************************************************/
 
-.recoverPasswordPage{
+.resetPasswordPage{
     /* Position constraints */
     top: 0%;
     left: 0%;
@@ -1019,17 +1020,17 @@ html, body{
     width: 100%;
     height: 100%;
 
-    /* Display on top of recoverPasswordPage */
+    /* Display on top of resetPasswordPage */
     z-index: 1;
 
-    /* Blur the recoverPasswordPage background */
+    /* Blur the resetPasswordPage background */
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(5px);
     background-size: cover;
 
     /* Disable page for now until requested */
     overflow: hidden;
-    display: none;
+    display: block;
 }
 
 .recoverPasswordPageScrollableDiv{
@@ -1050,7 +1051,7 @@ html, body{
     overflow: auto;
 }
 
-.recoverPasswordPageScrollableDiv .recoverPasswordPageVerticalSpacer{
+.recoverPasswordPageScrollableDiv .resetPasswordPageVerticalSpacer{
     /* Use vertical spacers to vertically center the signUpDialog */
     min-height: var(--verticalSpacerMinHeight);
     width: 100%;
@@ -1415,7 +1416,7 @@ html, body{
     color: red;
 }
 
-#verifyEmailDialogForm #resendCode{
+#verifyEmailDialogForm #resendCodeLink{
     /* Set width to fit */
     width: fit-content;
 
@@ -1796,12 +1797,12 @@ html, body{
     /************************** GENERAL PURPOSE PAGE ***************************/
     /***************************************************************************/
 
-    .recoverPasswordPage{
+    .resetPasswordPage{
         /* No need to blur the background */
         background: transparent;
     }
     
-    .recoverPasswordPage .recoverPasswordPageVerticalSpacer{
+    .resetPasswordPage .resetPasswordPageVerticalSpacer{
         /* No need of vertical spacers */
 	    display: none;
     }

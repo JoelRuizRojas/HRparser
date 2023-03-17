@@ -62,11 +62,11 @@ class Member
         }
 
         // Dump data into MemberAttr object
-        $member = new MemberAttr($id = $memberArr['id'], $forename = $memberArr['forename'],
-                                 $surname = $memberArr['surname'], $email = $memberArr['email'],
-                                 $country = $memberArr['country'], $joined = $memberArr['joined'], 
-                                 $last_login = $memberArr['last_login'], $picture = $memberArr['picture'], 
-                                 $role_id = $memberArr['role_id']);
+        $member = new MemberAttr(id: $memberArr['id'], forename: $memberArr['forename'],
+                                 surname: $memberArr['surname'], email: $memberArr['email'],
+                                 country: $memberArr['country'], joined: $memberArr['joined'], 
+                                 last_login: $memberArr['last_login'], picture: $memberArr['picture'], 
+                                 role_id: $memberArr['role_id']);
 
         // Return member data
         return $member;
@@ -136,11 +136,11 @@ class Member
         }
 
         // Dump data into MemberAttr object
-        $member = new MemberAttr($id = $memberArr['id'], $forename = $memberArr['forename'], 
-                                 $surname = $memberArr['surname'], $email = $memberArr['email'],
-                                 $country = $memberArr['country'], $password = $memberArr['password'],
-                                 $joined = $memberArr['joined'], $last_login = $memberArr['last_login'],
-                                 $picture = $memberArr['picture'], $role_id = $memberArr['role_id']);
+        $member = new MemberAttr(id: $memberArr['id'], forename: $memberArr['forename'], 
+                                 surname: $memberArr['surname'], email: $memberArr['email'],
+                                 country: $memberArr['country'], password: $memberArr['password'],
+                                 joined: $memberArr['joined'], last_login: $memberArr['last_login'],
+                                 picture: $memberArr['picture'], role_id: $memberArr['role_id']);
 
         // Check for password match
         $authenticated = password_verify($input_password, $memberArr['password']);

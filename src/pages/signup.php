@@ -9,7 +9,7 @@
 
 
 // Includes
-require APP_ROOT . '/src/utilities/criticalFields.php';              // Import critical fields to be used
+require APP_ROOT_PATH . '/src/utilities/criticalFields.php';         // Import critical fields to be used
 
 use HRparser\SignInUpUser\SignUpUser;                                // Namespace usage
 use HRparser\CMS\MemberAttr;                                   
@@ -158,7 +158,7 @@ else if($_SERVER['REQUEST_METHOD'] == 'GET'){
     if(isset($_GET['purpose']) == 'signup_confirmation'){
         $email = $_GET['email'];
         $purpose = $_GET['purpose'];
-
+ 
         // Check if email is provided
         if(isset($email)){
             // Get id of member

@@ -72,12 +72,12 @@
      * @param dialogById. Dialog to center
      * @return none
      * */
-    function centerDialog(dialogById){
+    function centerDialog($dialogById){
 	    // Css root scope to define css variables
         var r = document.querySelector(':root');
-        r.style.setProperty("--dialogWidth", dialogById.offsetWidth.toString() + "px");
+        r.style.setProperty("--dialogWidth", $dialogById.outerWidth() + "px");
 
-	    dialogById.className = "standByState";
+	    $dialogById.attr('class', 'standByState');
     }
 
     /**
@@ -88,11 +88,9 @@
      * @param verticalSpacersArrayByClass. Input array with the vertical spacers elements
      * @return none
      */
-    function adjustVerticalSpacersWithCurrentDialog(dialogById, verticalSpacersArrayByClass){
-        for(var i = 0; i < verticalSpacersArrayByClass.length; i++){
-            verticalSpacersArrayByClass[i].style.setProperty("height",
-                  "calc(((100vh - " + dialogById.offsetHeight + "px) / 2) - 0px)");
-        }
+    function adjustVerticalSpacersWithCurrentDialog($dialogById, $verticalSpacersArrayByClass){
+        $verticalSpacersArrayByClass.css("height",
+                                         "calc(((100vh - " + $dialogById.outerHeight() + "px) / 2) - 0px)");
     }
 
     /**
@@ -113,44 +111,44 @@
      * @param dlgInnerBlockTransTime. Time in ms to fade-in dialog inner block
      * @return none
      */
-    function fancyFadeInDialog(fadeInDlgById, dlgInnerBlock, fadeInDlgTransTime, dlgInnerBlockTransTime){
+    function fancyFadeInDialog($fadeInDlgById, $dlgInnerBlock, fadeInDlgTransTime, dlgInnerBlockTransTime){
         // Before fadingIn given dialog, remove all classes
-        fadeInDlgById.className = "";
-	    dlgInnerBlock.className = "";
+        $fadeInDlgById.attr('class', '');
+	    $dlgInnerBlock.attr('class', '');
 	
         // Make sure dialog to fade-in is displayed
-        fadeInDlgById.style.display = "block";
+        $fadeInDlgById.css('display', 'block');
         
         // Css root scope to define css variables
         var r = document.querySelector(':root');
         r.style.setProperty("--opacityTransTime", fadeInDlgTransTime.toString().trim() + "ms");
         r.style.setProperty("--fadeInTransTime", dlgInnerBlockTransTime.toString().trim() + "ms");
-        r.style.setProperty("--dialogWidth", fadeInDlgById.offsetWidth.toString() + "px");
+        r.style.setProperty("--dialogWidth", $fadeInDlgById.outerWidth() + "px");
 
 	    // Make sure dialogs starts off from center
-	    fadeInDlgById.className += " standByState";
+	    $fadeInDlgById.attr('class', 'standByState');
 
 	    // Fade in dialog outline definition
-        fadeInDlgById.className += " fadeableInOnPlace";
+        $fadeInDlgById.addClass('fadeableInOnPlace');
         window.setTimeout( function(){
-            fadeInDlgById.className += " fadeInOnPlace";
+            $fadeInDlgById.addClass('fadeInOnPlace');
         }, 50);
 
         /* Fade in inner block of dialog
     	 * To make the inner block independent from its parent lets 
 	     * momentarily position it in an absolute way for transition */
-	    dlgInnerBlock.style.setProperty("position", "absolute");
-	    dlgInnerBlock.className += " fadeableInToLeft_10vw";
+	    $dlgInnerBlock.css('position', 'absolute');
+	    $dlgInnerBlock.addClass('fadeableInToLeft_10vw');
         window.setTimeout( function(){
-            dlgInnerBlock.className += " fadeIn";
+            $dlgInnerBlock.addClass('fadeIn');
         }, 50);
 
 	    /* Remove classes attributes and absolute position from
 	     * the dlgInnerBlock */
 	    window.setTimeout( function(){
-            dlgInnerBlock.style.position = "";
-	        fadeInDlgById.className = "standByState";
-	        dlgInnerBlock.className = "";
+            $dlgInnerBlock.css('position', '');
+	        $fadeInDlgById.attr('class', 'standByState');
+	        $dlgInnerBlock.attr('class', '');
         }, Math.max(fadeInDlgTransTime, dlgInnerBlockTransTime) + 100);
     }
 
@@ -167,32 +165,32 @@
      * @param transitionTime. Time in ms to fade-in dialog
      * @return none
      */
-    function fadeInAndScaleDialog(fadeInDlgById, transitionTime){
+    function fadeInAndScaleDialog($fadeInDlgById, transitionTime){
 	    // Before fadingIn given dialog, remove all classes
-        fadeInDlgById.className = "";
+        $fadeInDlgById.attr('class', '');
 
 	    // Make sure dialog to fade-in is displayed
-        fadeInDlgById.style.display = "block";
+        $fadeInDlgById.css('display', 'block');
 	
 	    // Css root scope to define css variables
         var r = document.querySelector(':root');
         r.style.setProperty("--fadeInTransTime", transitionTime.toString().trim() + "ms");
-        r.style.setProperty("--dialogWidth", fadeInDlgById.offsetWidth.toString() + "px");
+        r.style.setProperty("--dialogWidth", $fadeInDlgById.outerWidth() + "px");
 	
 	    // Center dialog
-	    fadeInDlgById.className = "standByState";
+	    $fadeInDlgById.attr('class', 'standByState');
 
 	    // Fade in dialog
-        fadeInDlgById.className += " fadeableInToTopAndScale_10vh";
+        $fadeInDlgById.addClass('fadeableInToTopAndScale_10vh');
         window.setTimeout( function(){
-            fadeInDlgById.className += " fadeInToTopAndScale";
+            $fadeInDlgById.addClass('fadeInToTopAndScale');
         }, 50);
 
 	    /* Remove classes attributes and absolute position from
          * the dlgInnerBlock */
         window.setTimeout( function(){
-	        fadeInDlgById.style.setProperty("position", "");
-            fadeInDlgById.className = "standByState";
+	        $fadeInDlgById.css('position', '');
+            $fadeInDlgById.attr('class', 'standByState');
         }, transitionTime + 100);
     }
 
@@ -210,33 +208,33 @@
      * @param transitionTime. Time in ms to fade-out dialog
      * @return none
      */
-    function fadeOutAndScaleDialog(fadeOutDlgById, transitionTime){
+    function fadeOutAndScaleDialog($fadeOutDlgById, transitionTime){
 	    // Before fading-out given dialog, remove all classes
-        fadeOutDlgById.className = "";
+        $fadeOutDlgById.attr('class', '');
 
 	    // Make sure dialog to fade-out is displayed
-        fadeOutDlgById.style.display = "block";
+        $fadeOutDlgById.css('display', 'block');
 	
 	    // Css root scope to define css variables
         var r = document.querySelector(':root');
         r.style.setProperty("--fadeOutTransTime", transitionTime.toString().trim() + "ms");
-        r.style.setProperty("--dialogWidth", fadeOutDlgById.offsetWidth.toString() + "px");
+        r.style.setProperty("--dialogWidth", $fadeOutDlgById.outerWidth() + "px");
 	
 	    // Center dialog
-	    fadeOutDlgById.className = "standByState";
+	    $fadeOutDlgById.attr('class', 'standByState');
 
 	    // Fade in dialog
-        fadeOutDlgById.className += " fadeableOutToTopAndScale";
+        $fadeOutDlgById.addClass('fadeableOutToTopAndScale');
         window.setTimeout( function(){
-            fadeOutDlgById.className += " fadeOutToTopAndScale_50vh";
+            $fadeOutDlgById.addClass('fadeOutToTopAndScale_50vh');
         }, 50);
 
 	    /* Remove classes attributes and absolute position from
          * the dialog */
         window.setTimeout( function(){
-	        fadeOutDlgById.className = "";
-            fadeOutDlgById.style.position = "";
-            fadeOutDlgById.style.display = "none";
+	        $fadeOutDlgById.attr('class', '');
+            $fadeOutDlgById.css('position', '');
+            $fadeOutDlgById.css('display', 'none');
         }, transitionTime + 100);
     }
 
@@ -253,28 +251,28 @@
      * @param transitionTime. Time in ms to fade-out dialog
      * @return none
      */
-    function fadeOutDialogOnPlace(fadeOutDlgById, transitionTime){
+    function fadeOutDialogOnPlace($fadeOutDlgById, transitionTime){
 	    // Make sure dialog to fade-out is displayed
-        fadeOutDlgById.style.display = "block";
+        $fadeOutDlgById.css('display', 'block');
 	
 	    // Css root scope to define css variables
         var r = document.querySelector(':root');
         r.style.setProperty("--fadeOutTransTime", transitionTime.toString().trim() + "ms");
-        r.style.setProperty("--dialogWidth", fadeOutDlgById.offsetWidth.toString() + "px");
+        r.style.setProperty("--dialogWidth", $fadeOutDlgById.outerWidth() + "px");
         	
 
 	    // Fade in dialog
-        fadeOutDlgById.className += " fadeableOut";
+        $fadeOutDlgById.addClass('fadeableOut');
         window.setTimeout( function(){
-            fadeOutDlgById.className += " fadeOutOnPlace";
+            $fadeOutDlgById.addClass('fadeOutOnPlace');
         }, 50);
 
 	    /* Remove classes attributes and absolute position from
          * the dialog */
         window.setTimeout( function(){
-	        fadeOutDlgById.className = "";
-            fadeOutDlgById.style.position = "";
-            fadeOutDlgById.style.display = "none";
+	        $fadeOutDlgById.attr('class', '');
+            $fadeOutDlgById.css('position', '');
+            $fadeOutDlgById.css('display', 'none');
         }, (transitionTime + 100));
     }
 
@@ -300,57 +298,59 @@
      * @param fadeInDlgById. Id of the dialog to fade in
      * @return none
      */
-    function showNextGeneralPurposeDialog(transitionTime, fadeOutDlgById, fadeInDlgById){
+    function showNextGeneralPurposeDialog(transitionTime, $fadeOutDlgById, $fadeInDlgById){
 	    // Before fadingOut/fadingIn current/next dialogs remove all classes
-        fadeOutDlgById.className = "";
-        if(fadeInDlgById !== undefined)
-            fadeInDlgById.className = "";
+        $fadeOutDlgById.attr('class', '');
+        if($fadeInDlgById !== undefined)
+            $fadeInDlgById.attr('class', '');
 
         /* Make sure dialog display property is set (they might be not display 
 	     * when page is re-served). Since dialogs "share" space during transition
 	     * we need to set the position property to absolute */
-        fadeOutDlgById.style.display = "block";
-	    fadeOutDlgById.style.position = "absolute";
-        if(fadeInDlgById !== undefined){
-            fadeInDlgById.style.display = "block";
-	    fadeInDlgById.style.position = "absolute";}
+        $fadeOutDlgById.css('display', 'block');
+	    $fadeOutDlgById.css('position', 'absolute');
+        if($fadeInDlgById !== undefined){
+            $fadeInDlgById.css('display', 'block');
+	        $fadeInDlgById.css('position', 'absolute');
+        }
 
 	    // Css root scope to define css variables
         var r = document.querySelector(':root');
 	    r.style.setProperty("--fadeOutTransTime", transitionTime.toString().trim() + "ms");
         r.style.setProperty("--fadeInTransTime", transitionTime.toString().trim() + "ms");
-        r.style.setProperty("--dialogWidth", fadeOutDlgById.offsetWidth.toString() + "px");
+        r.style.setProperty("--dialogWidth", $fadeOutDlgById.outerWidth() + "px");
 
 	    // Make sure dialog to fade-out starts off from center
-        fadeOutDlgById.className += " standByState";
-	    if(fadeInDlgById !== undefined)
-	        fadeInDlgById.className += " standByState";
+        $fadeOutDlgById.attr('class', 'standByState');
+	    if($fadeInDlgById !== undefined)
+	        $fadeInDlgById.attr('class', 'standByState');
 
         // Fade out current dialog
-        fadeOutDlgById.className += " fadeableOut";
+        $fadeOutDlgById.addClass('fadeableOut');
         window.setTimeout( function(){
-            fadeOutDlgById.className += " fadeOutLeft_20vw";
+            $fadeOutDlgById.addClass('fadeOutLeft_20vw');
         }, 50);
 
         // Fade in next dialog
-        if(fadeInDlgById !== undefined){
+        if($fadeInDlgById !== undefined){
             // Set opacity to 0 so that when timer expires the fadeIn effect is started
-            fadeInDlgById.className += " fadeableInToLeft_20vw";
+            $fadeInDlgById.addClass('fadeableInToLeft_20vw');
             window.setTimeout( function(){
-                fadeInDlgById.className += " fadeIn";
+                $fadeInDlgById.addClass('fadeIn');
             }, 50);
         }
 
 	    /* Remove classes attributes and absolute position from
          * the dialogs */
         window.setTimeout( function(){
-            fadeOutDlgById.className = "";
-	        fadeOutDlgById.style.position = "";
-	        fadeOutDlgById.style.display = "none";
+            $fadeOutDlgById.attr('class', '');
+	        $fadeOutDlgById.css('position', '');
+	        $fadeOutDlgById.css('display', 'none');
 
-	        if(fadeInDlgById !== undefined){
-                fadeInDlgById.className = "standByState";
-		    fadeInDlgById.style.position = "";}
+	        if($fadeInDlgById !== undefined){
+                $fadeInDlgById.attr('class', 'standByState');
+		        $fadeInDlgById.css('position', '');
+            }
         }, transitionTime + 100);
     }
 
@@ -370,58 +370,58 @@
      * @param fadeInDlgById. Id of the dialog to fade in
      * @return none
      */
-    function showPreviousGeneralPurposeDialog(transitionTime, fadeOutDlgById, fadeInDlgById){
+    function showPreviousGeneralPurposeDialog(transitionTime, $fadeOutDlgById, $fadeInDlgById){
 	    // Before fadingOut/fadingIn current/previous dialogs remove all classes
-        fadeOutDlgById.className = "";
-        if(fadeInDlgById !== undefined)
-            fadeInDlgById.className = "";
+        $fadeOutDlgById.attr('class', '');
+        if($fadeInDlgById !== undefined)
+            $fadeInDlgById.attr('class', '');
 
 	    /* Make sure dialog display property is set (they might be not display 
          * when page is re-served). Since dialogs "share" space during transition
          * we need to set the position property to absolute */
-        fadeOutDlgById.style.display = "block";
-        fadeOutDlgById.style.position = "absolute";
-        if(fadeInDlgById !== undefined){
-            fadeInDlgById.style.display = "block";
-            fadeInDlgById.style.position = "absolute";
+        $fadeOutDlgById.css('display', 'block');
+        $fadeOutDlgById.css('position', 'absolute');
+        if($fadeInDlgById !== undefined){
+            $fadeInDlgById.css('display', 'block');
+            $fadeInDlgById.css('position', 'absolute');
         }
 
 	    // Css root scope to define css variables
         var r = document.querySelector(':root');
         r.style.setProperty("--fadeOutTransTime", transitionTime.toString().trim() + "ms");
         r.style.setProperty("--fadeInTransTime", transitionTime.toString().trim() + "ms");
-        r.style.setProperty("--dialogWidth", fadeOutDlgById.offsetWidth.toString() + "px");
+        r.style.setProperty("--dialogWidth", $fadeOutDlgById.outerWidth() + "px");
 	
         // Make sure dialog to fade-out starts off from center
-        fadeOutDlgById.className += " standByState";
-	    if(fadeInDlgById !== undefined)
-            fadeInDlgById.className += " standByState";
+        $fadeOutDlgById.attr('class', 'standByState');
+	    if($fadeInDlgById !== undefined)
+            $fadeInDlgById.attr('class', 'standByState');
 
         // Fade out current dialog
-        fadeOutDlgById.className += " fadeableOut";
+        $fadeOutDlgById.addClass('fadeableOut');
         window.setTimeout( function(){
-            fadeOutDlgById.className += " fadeOutRight_20vw";
+            $fadeOutDlgById.addClass('fadeOutRight_20vw');
         }, 50);
 
 	    // Fade in next previous
-        if(fadeInDlgById !== undefined){
+        if($fadeInDlgById !== undefined){
             // Set opacity to 0 so that when timer expires the fadeIn effect is started
-            fadeInDlgById.className += " fadeableInToRight_20vw";
+            $fadeInDlgById.addClass('fadeableInToRight_20vw');
             window.setTimeout( function(){
-                fadeInDlgById.className += " fadeIn";
+                $fadeInDlgById.addClass('fadeIn');
             }, 50);
         }
 
         /* Remove classes attributes and absolute position from
          * the dialogs */
         window.setTimeout( function(){
-            fadeOutDlgById.className = "";
-            fadeOutDlgById.style.position = "";
-            fadeOutDlgById.style.display = "none";
+            $fadeOutDlgById.attr('class', '');
+            $fadeOutDlgById.css('position', '');
+            $fadeOutDlgById.css('display', 'none');
 
-            if(fadeInDlgById !== undefined){
-                fadeInDlgById.className = "standByState";
-                fadeInDlgById.style.position = "";
+            if($fadeInDlgById !== undefined){
+                $fadeInDlgById.attr('class', 'standByState');
+                $fadeInDlgById.css('position', '');
             }
         }, transitionTime + 100);
     }

@@ -46,7 +46,7 @@ function getReleaseTimestamp(): int
 function buildRegistrationHtmlEmail(string $memberName, string $link, string $senderEmail): array
 {
     // Create subject
-    $subject = "Thank you for registering, access your account";
+    $subject = "[HR Parser] Thank you for registering, access your account";
 
     // Create body
     $body = "<h2>Hello " . $memberName . ",</h2><br>" .
@@ -73,7 +73,7 @@ function buildRegistrationHtmlEmail(string $memberName, string $link, string $se
 function buildResetPasswordHtmlEmail(string $memberName, string $verificationCode): array
 {
     // Create subject
-    $subject = "Reset your password";
+    $subject = "[HR Parser] Reset your password";
 
     // Create body
     $body = "<h2>Hello " . $memberName . ",</h2><br>" .
@@ -82,6 +82,63 @@ function buildResetPasswordHtmlEmail(string $memberName, string $verificationCod
                 Use next verification code to reset your password:</p><br>" .
             "<h3>" . $verificationCode . "</h3>" .
             "<p>If you did not make this request then please ignore this email.</p><br>" .
+            "<p>Best,<br>" .
+            "The HR Parser team</p>";
+
+    // Create array and return the reset password verification email
+    return ['subject' => $subject, 'body' => $body];
+}
+
+/**
+ * Builds up the html email content to let know member that password was changed successfully
+ *
+ * @param $memberName, Name of member         (IN)
+ * @param $memberEmail, Email of member       (IN)
+ * @param $resetPwdUrl, Url to reset password (IN)
+ * @param $adminEmail, HR parser team email   (IN)
+ * @return array with subject, and body of email
+ */
+function buildSuccessChangedPasswordHtmlEmail(string $memberName, string $memberEmail, string $resetPwdUrl, string $adminEmail): array
+{
+    // Create subject
+    $subject = "[HR Parser] Your password was reset";
+
+    // Create body
+    $body = "<h2>Hello " . $memberName . ",</h2><br>" .
+            "<p>We wanted to let you know that your HRparser password was reset.</p><br>" .
+            "<p>If you did not perform this action, you can recover access by entering " . 
+                $memberEmail . " into the form at " . $resetPwdUrl . " </p><br>" .
+            "<p>If you run into problems, please contact us at " . $adminEmail . ".</p><br>" .
+            "<p>Please do not reply to this email with your password. We will never ask for your password, and we strongly discourage you from sharing it with anyone.</p><br>" .
+            "<p>Best,<br>" .
+            "The HR Parser team</p>";
+
+    // Create array and return the reset password verification email
+    return ['subject' => $subject, 'body' => $body];
+}
+
+/**
+ * Builds up the html email content to let know member that password was 
+ * not changed due to an issue
+ *
+ * @param $memberName, Name of member         (IN)
+ * @param $memberEmail, Email of member       (IN)
+ * @param $resetPwdUrl, Url to reset password (IN)
+ * @param $adminEmail, HR parser team email   (IN)
+ * @return array with subject, and body of email
+ */
+function buildFailedChangedPasswordHtmlEmail(string $memberName, string $memberEmail, string $resetPwdUrl, string $adminEmail): array
+{
+    // Create subject
+    $subject = "[HR Parser] Your password was not reset";
+
+    // Create body
+    $body = "<h2>Hello " . $memberName . ",</h2><br>" .
+            "<p>We wanted to let you know that your HRparser password was not reset due to an internal issue.</p><br>" .
+            "<p>You can retry resetting your password by entering " .
+                $memberEmail . " into the form at " . $resetPwdUrl . " </p><br>" .
+            "<p>If you run into problems, please contact us at " . $adminEmail . ".</p><br>" .
+            "<p>Please do not reply to this email with your password. We will never ask for your password, and we strongly discourage you from sharing it with anyone.</p><br>" .
             "<p>Best,<br>" .
             "The HR Parser team</p>";
 

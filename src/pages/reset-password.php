@@ -9,7 +9,7 @@
 
 
 // Includes
-require APP_ROOT . '/src/utilities/criticalFields.php';              // Import critical fields to be used
+require APP_ROOT_PATH . '/src/utilities/criticalFields.php';         // Import critical fields to be used
 
 use HRparser\SignInUpUser\SignUpUser;                                // Import Validate class
 
@@ -285,10 +285,30 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                 // Error saving password
                                 $h_nPErrors[$sU_map['confPwd']] = "Error saving new password. Contact us at " . 
                                                                   $email_config['admin_email'];
+
+                                // Create url to reset password, to be added to email
+                                $resetPwdUrl = DOMAIN . DOC_ROOT . 'reset-password';
+
+                                // Send email to member about password being changed
+                                $email = buildFailedChangedPasswordHtmlEmail($member->forename, $member->email, $resetPwdUrl, $email_config['admin_email']);
+
+                                // Build email object instance to send email
+                                $mail = new \HRparser\Email\Email($email_config);
+                                $sent = $mail->sendEmail($email_config['admin_email'], $member->email, $email['subject'], $email['body']);
                             }
                             else{
                                 // After successfully saving the new password, delete change_password token
                                 $cms->getToken()->remove($token);
+
+                                // Create url to reset password, to be added to email
+                                $resetPwdUrl = DOMAIN . DOC_ROOT . 'reset-password';
+
+                                // Send email to member about password being changed
+                                $email = buildSuccessChangedPasswordHtmlEmail($member->forename, $member->email, $resetPwdUrl, $email_config['admin_email']);
+
+                                // Build email object instance to send email
+                                $mail = new \HRparser\Email\Email($email_config);
+                                $sent = $mail->sendEmail($email_config['admin_email'], $member->email, $email['subject'], $email['body']);
                             }
                         }
                         else{

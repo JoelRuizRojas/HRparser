@@ -5,6 +5,8 @@
  * Copyright (c) HR parser. All rights reserved.
  */
 
+var signInManager = (function(_window){
+
     /********************************************************************/
     /********************************************************************/
     /********************* SIGN IN PAGE UTILITIES ***********************/
@@ -19,7 +21,7 @@
      */
     function requestResetPasswordPage(){
         // Request the signUp page
-        window.location.href = doc_root +  "reset-password";
+        _window.location.href = this.global.doc_root +  "reset-password";
     }
 
     /**
@@ -28,13 +30,53 @@
      * @param none
      * @return none
      */
-    function requestSignUpPage(){
+    function requestSignUpPage(evt){
         // Request the signUp page
-        window.location.href = doc_root +  "signup";
+        _window.location.href = this.global.doc_root +  "signup";
     }
 
-    /********************************************************************/
-    /********************************************************************/
-    /************************* RESPONSIVE DESIGN ************************/
-    /********************************************************************/
-    /********************************************************************/
+    /**
+     * Initialization of SignIn page, perform the rendering of page
+     *
+     * @param none
+     * @return none
+     */
+    function init(){
+        // Bind the click on DOM elements to handlers
+        $(this.dom.forgotPwdLink).bind('click', requestResetPasswordPage.bind(this));
+        $(this.dom.signUpLink).bind('click', requestSignUpPage.bind(this));
+    }
+
+    // Object to reference from global scope
+    var publicAPI = {
+        init: init,
+ 
+        // signInManager scope DOM elements
+        dom: {},
+
+        // signInManager global vars
+        global: {}
+    };
+
+    return publicAPI;
+
+})(window); 
+
+$(document).ready(function(){
+
+    /* Populate the dom elements to be used by the signInManager */
+    signInManager.dom = {
+
+        forgotPwdLink: "#forgotPwdLink",
+        signUpLink: "#signUpLink"
+    };
+
+    /* Populate the global vars to be used by the signInManager
+     * These includes: Php variables, ...*/
+    signInManager.global = {
+        doc_root: doc_root
+    };
+
+    signInManager.init();
+});
+
