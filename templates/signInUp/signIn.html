@@ -33,7 +33,7 @@
                 <!-- Sign in form -->
                 <form action="{{ doc_root }}signin/" method="post" class="signInForm">
                     <div class="inputsDiv">
-                        <input type="email" name="signInEmail" id="signInEmail" placeholder="Email" required>
+                        <input type="email" name="signInEmail" id="signInEmail" placeholder="Email" value="{{ h_sIUser.signInEmail }}" required>
                         <input type="password" name="signInPwd" id="signInPwd" placeholder="Password" required>
                     </div>
 

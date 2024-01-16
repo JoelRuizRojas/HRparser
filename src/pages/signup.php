@@ -110,7 +110,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $member->email      = $h_sUUser[$sU_map['email']];
             $member->country    = $h_sUUser[$sU_map['country']];
             $member->password   = $h_sUUser[$sU_map['pwd']];
-            $member->role_id    = 4;  // For now only homeopath role is allowed to register
+            $member->role_id    = 3;  // For now only homeopath role is allowed to register
 
             // User CMS to write into database the new member data
             $result = $cms->getMember()->signUp($member);

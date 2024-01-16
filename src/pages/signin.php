@@ -32,37 +32,39 @@ use HRparser\CMS\MemberAttr;
  *      nP  ->  Relates to Create New Password process */
 
 /**
- * @var Flag to track if signIn form has been submitted
- */
-$h_sIDialogFormSubmitted = false;
-
-/**
  * @var Array to collect the user inputs from form
  */
 $h_sIUser = [$sI_map['email']   => "",
              $sI_map['pwd']     => ""];
 
 /*
- * @var Array to collect the errors from user data validation (not used yet)
- */
-$h_sIErrors = [$sI_map['email']     => "",
-               $sI_map['pwd']       => ""];
-
-/*
- * @var Variable that hast the data validation error to display
+ * @var Variable that hast the data validation error to display.
+ *      We use a generic error to avoid giving details
  */
 $h_sIError  = "";
 
 /**
+ * @var Flag to track if signIn form has been submitted
+ */
+$signInDialogFormSubmitted = false;
+
+/*
+ * @var Array to collect the errors from user data validation and
+ *      sign in process (not used yet)
+ */
+$signInErrors = [$sI_map['email']     => "",
+                 $sI_map['pwd']       => ""];
+
+/**
  * @var User data validation invalid status
  */
-$h_sIValidationInvSts = false;
+$signInValidationInvSts = false;
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     if(isset($_POST["signInForm"])){
         // SignUp form submitted
-        $h_sIDialogFormSubmitted = true;
+        $signInDialogFormSubmitted = true;
 
         // Allocate signUpUser object instance
         $signInUser = new SignInUser($sI_map);
@@ -75,13 +77,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                           $h_sIUser[$sI_map['pwd']]);
 
         // Validate the collected user data
-        $h_sIValidationInvSts = $signInUser->validateUserInputData($h_sIErrors);
+        $signInValidationInvSts = $signInUser->validateUserInputData($signInErrors);
 
         // Get the user data to be displayed again in client form (in case validation fails)
         $h_sIUser = $signInUser->getUserDataToPublish();
 
         // If no errors sign In the member on databases
-        if(!$h_sIValidationInvSts){                  // If no errors
+        if(!$signInValidationInvSts){             // If no errors
 
             // Use CMS to signIn the user
             $member = $cms->getMember()->signIn($h_sIUser[$sI_map['email']],
@@ -112,13 +114,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 // LOGIN SUCCESSFULLY
             }
             else{
-                // Raise error flag and populate the error to be shown on page
-                $h_sIValidationInvSts = true;
-                $h_sIErrors[$sI_map['email']] = 'The email or password are incorrect';
+                // Populate the error detail (not used so far)
+                $signInErrors[$sI_map['email']] = 'The user is not signed up or password is incorrect';
+
+                // Show a generic error on page to avoid displaying error details
                 $h_sIError = 'The email or password are incorrect';
             }
         }
         else{
+            // Show a generic error on page to avoid displaying error details
             $h_sIError = 'The email or password are incorrect';
         }
 
@@ -129,10 +133,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 
 // Populate twig template
-$twig_data['h_sIDialogFormSubmitted'] = $h_sIDialogFormSubmitted;
 $twig_data['h_sIUser'] = $h_sIUser;
 $twig_data['h_sIError'] = $h_sIError;
-$twig_data['h_sIValidationInvSts'] = $h_sIValidationInvSts;
 
 // Render Twig template
 echo $twig->render('signInUp/signIn.html', $twig_data);

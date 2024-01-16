@@ -180,11 +180,21 @@ class Token
          * and delete the rest (since it is expected to only have 1 per 
          * member/purpose) */
         $targetToken = null;
+        $previousTokenStr = '';
         foreach($tokenArr as $token){
-            // Keep track of most recent token
-            if(strtotime($token['expires']) > $date){
+            // Keep track of token that expires further away in the future
+            if(strtotime($token['expires']) > strtotime($date)){
                 $targetToken = $token;
+
+                /* Delete the previous token. Of course check it is not the 
+                 * initial date reference, since that token does not exist */
+                if($date != getReleaseTimestamp()){
+                    $this->remove($previousTokenStr);
+                }
+
+                /* Keep track of current token data for next iteration */
                 $date = $token['expires'];
+                $previousTokenStr = $token['token'];
             }
             else{
                 // Delete the rest of tokens

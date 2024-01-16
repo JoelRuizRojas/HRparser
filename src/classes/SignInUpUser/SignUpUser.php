@@ -79,13 +79,13 @@ class SignUpUser
      */
     public function collectUserInputData($name, $lastName, $country, $email, $pwd, $confPwd, $terms)
     {
-        $this->userRaw[$this->map['name']]       = $name;
-        $this->userRaw[$this->map['lastName']]   = $lastName;
-        $this->userRaw[$this->map['country']]    = $country;
-        $this->userRaw[$this->map['email']]      = $email;
-        $this->userRaw[$this->map['pwd']]        = $pwd;
-        $this->userRaw[$this->map['confPwd']]    = $confPwd;
-        $this->userRaw[$this->map['terms']]      = $terms;
+        $this->userRaw[$this->map['name']]       = trim($name);
+        $this->userRaw[$this->map['lastName']]   = trim($lastName);
+        $this->userRaw[$this->map['country']]    = trim($country);
+        $this->userRaw[$this->map['email']]      = trim($email);
+        $this->userRaw[$this->map['pwd']]        = trim($pwd);
+        $this->userRaw[$this->map['confPwd']]    = trim($confPwd);
+        $this->userRaw[$this->map['terms']]      = trim($terms);
     }
 
     /**

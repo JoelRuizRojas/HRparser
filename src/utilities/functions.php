@@ -29,10 +29,10 @@ function redirect(string $location, array $parameters = [], $response_code = 302
  * @param none
  * @return Unix timestamp of HRparser release date
  */
-function getReleaseTimestamp(): int
+function getReleaseTimestamp(): string
 {
     // Define our release date
-    return strtotime('2023-01-01 00:00:00');
+    return '2023-01-01 00:00:00';
 }
 
 /**

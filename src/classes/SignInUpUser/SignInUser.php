@@ -28,14 +28,14 @@ class SignInUser
         // Get the mapping of html form inputs
         $this->map = $map;
 
-	    // Initialize array to collect user data
+        // Initialize array to collect user data
         $this->userRaw = [$this->map['email']     => "",
                           $this->map['pwd']       => ""];
 
         // Initialize array to process the user input data
-	    $this->userProcessed = $this->userRaw;
+        $this->userProcessed = $this->userRaw;
 
-	    // Initialize validation result
+        // Initialize validation result
         $this->validationInvalid = "";
     }
 
@@ -61,18 +61,20 @@ class SignInUser
     public function validateUserInputData(&$errors): string
     {
         // Validate the user inputed data
-	    $this->userProcessed[$this->map['email']] = filter_var($this->userRaw[$this->map['email']], FILTER_VALIDATE_EMAIL);
+        $this->userProcessed[$this->map['email']] = filter_var($this->userRaw[$this->map['email']], 
+                                                               FILTER_VALIDATE_EMAIL);
 
         // Create error messages after data validation
-	    $this->errors[$this->map['email']]  = $this->userProcessed[$this->map['email']] ?
+        $this->errors[$this->map['email']]  = $this->userProcessed[$this->map['email']] ?
                                               '' : 'Email format not fulfilled';
-        $this->errors[$this->map['pwd']]    = $this->validateUserPassword($this->userRaw[$this->map['pwd']], $this->userProcessed[$this->map['pwd']]);
+	$this->errors[$this->map['pwd']]    = $this->validateUserPassword($this->userRaw[$this->map['pwd']], 
+                                                                          $this->userProcessed[$this->map['pwd']]);
 
         // Retrieve validation errors
         $errors[$this->map['email']] = $this->errors[$this->map['email']];
         $errors[$this->map['pwd']] = $this->errors[$this->map['pwd']];
 
-	    // Check if validation succeeded
+        // Check if validation succeeded
         $this->validationInvalid = $this->implodeArrayContent($this->errors);
         return $this->validationInvalid; 
     }
