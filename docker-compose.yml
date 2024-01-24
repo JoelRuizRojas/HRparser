@@ -41,6 +41,7 @@ services:
       MYSQL_PASSWORD: 'domingo.18.noviembre'
     volumes:
       - ./dbs/login/entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./dbs/login/var:/var/lib/mysql
  
 networks:
   login-network:

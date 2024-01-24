@@ -1,14 +1,18 @@
 -- Filename: init.sql
 
--- Create the database if it doesn't exist
-CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
-USE ${MYSQL_DATABASE};
+-- Check if the database exists
+SELECT SCHEMA_NAME
+FROM INFORMATION_SCHEMA.SCHEMATA
+WHERE SCHEMA_NAME = ${MYSQL_DATABASE};
 
--- Create a user and grant privileges
---CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
---GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
---FLUSH PRIVILEGES;
+-- If the database does not exist, create it and source the script
+SET @db_exists = FOUND_ROWS();
 
--- Load the schema from the SQL file
-SOURCE ${PARENT_DIR}/schema/schema.sql;
+IF @db_exists = 0 THEN
+    CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
+    USE ${MYSQL_DATABASE};
+
+    -- Source your SQL script
+    source ${PARENT_DIR}/schema/schema.sql;
+END IF;
 
