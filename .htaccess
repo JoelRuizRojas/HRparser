@@ -9,10 +9,16 @@ php_flag   display_errors      off
 php_flag   log_errors          on
 php_value  date.timezone       "America/Mexico_City"
 
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . public/index.php [L]
+#RewriteEngine On
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule . public/index.php [L]
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|svg|ico)$
+    RewriteRule . public/index.php [L]
+</IfModule>
 
 # The paths for the following entries must match the paths on your computer
-ErrorDocument 404 /HRparser/src/pages/page-not-found.php
-ErrorDocument 500 /HRparser/public/error.php
+ErrorDocument 404 /src/pages/page-not-found.php
+ErrorDocument 500 /public/error.php

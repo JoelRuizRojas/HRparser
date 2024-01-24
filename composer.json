@@ -1,7 +1,7 @@
 {
     "require": {
-        "ezyang/htmlpurifier": "^4.16",
-        "twig/twig": "^3.4",
+        "ezyang/htmlpurifier": "^4.17",
+        "twig/twig": "^3.8",
         "phpmailer/phpmailer": "^6.7"
     },
     "autoload": {
