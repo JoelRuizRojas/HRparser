@@ -234,7 +234,7 @@ html, body{
     width: auto;
     
     /* Background definition */
-    background-image: url(../../img/HRparser_LoginImg.jpg);                  
+    /*background-image: url(../../img/HRparser_LoginImg.jpg);*/
     background-repeat: no-repeat;
     background-size: cover;
     margin-right: 450px;

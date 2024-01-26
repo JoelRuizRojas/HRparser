@@ -16,7 +16,7 @@
     <div class="signInPage" id="signInPage">
 
         <!-- Div to place big signIn image -->
-        <div class="signInImgDiv"></div>
+        <div class="signInImgDiv" id="signInImgDiv"></div>
 
         <!-- Sign In dialog -->
         <aside class="signInDialog">
@@ -59,6 +59,9 @@
     <script type="text/javascript">
         /* Twig variables */
         var doc_root = "{{ doc_root }}";
+	var minio_server = "{{ h_minioServer }}";
+	var minio_port = "{{ h_minioPort }}";
+	var my_resources_bucket = "{{ h_myResourcesBucketName }}";
      </script>
 
     <!-- Web site signIn javascripts -->

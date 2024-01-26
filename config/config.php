@@ -17,8 +17,8 @@ define('DOC_ROOT', DIRECTORY_SEPARATOR);
 // Database settings
 $type     = 'mysql';                               // Type of database
 $server   = 'login_db_server';                     // Server the database is on
-$db       = 'HRparserDB';                          // Name of the database
-$port     = '3306';                                // Port for sql database management application
+$db       = getenv('LOGIN_DB_NAME');               // Name of the database
+$port     = getenv('LOGIN_DB_SERVER_PORT');        // Port for sql database management application
 $charset  = 'utf8mb4';                             // UTF-8 encoding using 4 bytes of data per character
 $username = 'admin';                               // Admin username
 $password = 'domingo.18.noviembre';                // Password

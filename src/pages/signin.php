@@ -132,9 +132,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 }
 
+/* Get IP address of minio server. At this point this container
+ * must be running */
+$minioServerName = "minio";
+$h_minioServer = gethostbyname($minioServerName);
+
 // Populate twig template
 $twig_data['h_sIUser'] = $h_sIUser;
 $twig_data['h_sIError'] = $h_sIError;
+$twig_data['h_minioServer'] = $h_minioServer;
+$twig_data['h_minioPort'] = getenv('MINIO_PORT');
+$twig_data['h_myResourcesBucketName'] = getenv('MY_RESOURCES_BUCKET_NAME');
 
 // Render Twig template
 echo $twig->render('signInUp/signIn.html', $twig_data);
