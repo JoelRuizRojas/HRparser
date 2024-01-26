@@ -203,6 +203,10 @@ $twig_data['h_sUValidationInvSts'] = $h_sUValidationInvSts;
 $twig_data['h_countries'] = $h_countries;
 $twig_data['h_sUResendVerifEmailLink'] = $h_sUResendVerifEmailLink;
 
+$twig_data['h_minioServer'] = MINIO_SERVER;
+$twig_data['h_minioPort'] = MINIO_PORT;
+$twig_data['h_myResourcesBucketName'] = MINIO_RESOURCES_BUCKT_NAME;
+
 // Render Twig template
 echo $twig->render('signInUp/signUp.html', $twig_data);
 

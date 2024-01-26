@@ -14,6 +14,12 @@ define('DOMAIN', 'http://localhost:8092');         // Domain (used to create lin
 // On a live site a single forward slash / would indicate the document root folder
 define('DOC_ROOT', DIRECTORY_SEPARATOR);
 
+/* Get IP address of minio server. At this point this container
+ * must be running */
+define('MINIO_SERVER', gethostbyname("minio"));
+define('MINIO_PORT', getenv('MINIO_PORT'));
+define('MINIO_RESOURCES_BUCKT_NAME', getenv('MY_RESOURCES_BUCKET_NAME'));
+
 // Database settings
 $type     = 'mysql';                               // Type of database
 $server   = 'login_db_server';                     // Server the database is on

@@ -362,6 +362,10 @@ $twig_data['h_nPDialogFormSubmitted'] = $h_nPDialogFormSubmitted;
 $twig_data['h_nPUser'] = $h_nPUser;
 $twig_data['h_nPErrors'] = $h_nPErrors;
 
+$twig_data['h_minioServer'] = MINIO_SERVER;
+$twig_data['h_minioPort'] = MINIO_PORT;
+$twig_data['h_myResourcesBucketName'] = MINIO_RESOURCES_BUCKT_NAME;
+
 // Render Twig template
 echo $twig->render('signInUp/resetPassword.html', $twig_data);
 
