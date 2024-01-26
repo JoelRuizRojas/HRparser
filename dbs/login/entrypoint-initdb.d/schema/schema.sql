@@ -34,6 +34,7 @@ CREATE TABLE `member` (
   `picture` varchar(40) DEFAULT NULL,
   `role_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
   KEY `c_role_id` (`role_id`) USING BTREE,
   CONSTRAINT `c_roles_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
