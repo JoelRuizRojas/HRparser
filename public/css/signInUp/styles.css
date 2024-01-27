@@ -807,7 +807,7 @@ html, body{
     height: var(--confirmationEmailSvgSqSize);
 
     /* Set svg as background image */
-    background-image: url("../../img/mail.png");
+    /*background-image: url("../../img/mail.png");*/
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

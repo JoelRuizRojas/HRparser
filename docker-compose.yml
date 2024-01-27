@@ -21,7 +21,10 @@ services:
       - APP_VERSION=1.0
       - MINIO_PORT=${MINIO_PORT}
       - MY_RESOURCES_BUCKET_NAME=${MY_RESOURCES_BUCKET_NAME}
+      - MY_PRIV_RESOURCES_BUCKET_NAME=${MY_PRIV_RESOURCES_BUCKET_NAME}
       - LOGIN_DB_NAME=${LOGIN_DB_NAME}
+      - MINIO_LOGIN_SVR_USER=minioadmin
+      - MINIO_LOGIN_SVR_PWD=minioadmin
     depends_on:
       - login_db_server
       - minio

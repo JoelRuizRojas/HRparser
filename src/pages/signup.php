@@ -14,6 +14,7 @@ require APP_ROOT_PATH . '/src/utilities/criticalFields.php';         // Import c
 use HRparser\SignInUpUser\SignUpUser;                                // Namespace usage
 use HRparser\CMS\MemberAttr;                                   
 use HRparser\CMS\Member;
+use HRparser\AwsS3Client\AwsS3Client;
 
 /* Naming convention rules:
  * Example $h_sUUser
@@ -139,6 +140,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $h_sUResendVerifEmailLink = $h_sUResendVerifEmailLink . 
                                             '?email=' . $member->email . '&' .
                                             'purpose=signup_confirmation';
+
+                /* Create minIO client to retrieve the mail.png image
+                 * shown in the confirmation email dialog */
+                $mc = new AwsS3Client(getenv("MINIO_LOGIN_SVR_USER"),
+                                      getenv("MINIO_LOGIN_SVR_PWD"),
+                                      MINIO_SERVER,
+                                      MINIO_PORT);
+
+                $mailImageStr = $mc->getObject(getenv("MY_PRIV_RESOURCES_BUCKET_NAME"),
+                                               "mail.png");
+
+                // Encode image to base64 format
+                $mailImagebase64 = 'data:image/png;base64,' . base64_encode($mailImageStr);
             }
             else{
                 // Raise error flag and populate the error to be shown on page
@@ -206,6 +220,8 @@ $twig_data['h_sUResendVerifEmailLink'] = $h_sUResendVerifEmailLink;
 $twig_data['h_minioServer'] = MINIO_SERVER;
 $twig_data['h_minioPort'] = MINIO_PORT;
 $twig_data['h_myResourcesBucketName'] = MINIO_RESOURCES_BUCKT_NAME;
+
+$twig_data['h_confirmationEmailSvgSrc'] = $mailImagebase64;
 
 // Render Twig template
 echo $twig->render('signInUp/signUp.html', $twig_data);

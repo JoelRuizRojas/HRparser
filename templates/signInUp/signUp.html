@@ -170,6 +170,10 @@
         var h_sUDialogFormSubmitted = "{{ h_sUDialogFormSubmitted }}";
         var h_sUResendVerifEmailLink = "{{ h_sUResendVerifEmailLink|raw }}"; // Use raw option to avoid twig changing & by &amp;
         var h_sUErrors = "{{ h_sUValidationInvSts }}";
+
+	/* DEMO TEST TO EMBED THE IMAGE RETRIEVED FROM MINIO SERVER INTO HTML */
+	var confirmationEmailSvg = document.getElementById('confirmationEmailSvg');
+	confirmationEmailSvg.style.backgroundImage = 'url({{ h_confirmationEmailSvgSrc }})';
     </script>
 
     <!-- Web site signUp javascripts -->
