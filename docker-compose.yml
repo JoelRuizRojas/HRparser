@@ -2,12 +2,12 @@ version: '3.8'
 
 services:
 
-  login_server:
-    container_name: login_server
-    image: login_server
+  login-server:
+    container_name: login-server
+    image: login-server:latest
     build:
       context: .
-      dockerfile: login_server.dockerfile
+      dockerfile: login-server.dockerfile
       args:
         PACKAGES: "less nano wget curl"
     ports:
@@ -17,26 +17,27 @@ services:
     volumes:
       - .:/var/www/html
     environment:
-      - APP_ENV=production
-      - APP_VERSION=1.0
+      - DEPLOYMENT_ENV=development
+      - ENABLE_LOGS=true
       - MINIO_PORT=${MINIO_PORT}
       - MY_RESOURCES_BUCKET_NAME=${MY_RESOURCES_BUCKET_NAME}
       - MY_PRIV_RESOURCES_BUCKET_NAME=${MY_PRIV_RESOURCES_BUCKET_NAME}
-      - LOGIN_DB_NAME=${LOGIN_DB_NAME}
+      - MYSQL_DATABASE=${LOGIN_DB_NAME}
+      - MYSQL_SERVER_PORT=${LOGIN_DB_SERVER_PORT}}
       - MINIO_LOGIN_SVR_USER=minioadmin
       - MINIO_LOGIN_SVR_PWD=minioadmin
     depends_on:
-      - login_db_server
+      - login-db-server
       - minio
 
-  login_db_server:
-    container_name: login_db_server
-    image: login_db_server
+  login-db-server:
+    container_name: login-db-server
+    image: login-db-server:latest
     networks:
       - login-network
     build:
       context: .
-      dockerfile: login_db_server.dockerfile
+      dockerfile: login-db-server.dockerfile
       args:
         PACKAGES: "less nano wget curl"
     environment:

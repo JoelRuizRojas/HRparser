@@ -1,0 +1,99 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: login-server-pod
+  labels:
+    app: login-server-pod
+spec:
+  containers:
+  - name: login-server
+    image: docker.io/joelruiz/login-server:v1.0.0
+    env:
+    - name: DEPLOYMENT_ENV
+      value: "production"
+    - name: ENABLE_LOGS
+      value: "true"
+    - name: MYSQL_ROOT_USER
+      valueFrom:
+        secretKeyRef:
+          name: mysql-secret
+          key: MYSQL_ROOT_USER
+    - name: MYSQL_ROOT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: mysql-secret
+          key: MYSQL_ROOT_PASSWORD
+    - name: MYSQL_DATABASE
+      valueFrom:
+        configMapKeyRef:
+          name: mysql-configmap
+          key: MYSQL_DATABASE
+    readinessProbe:
+      exec:
+        command:
+        - /bin/sh
+        - -c
+        - |
+          mysql -h login-db-server-svc -P mariadbport -u ${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASSWORD} -e "SELECT 1;"
+    volumeMounts:
+    - name: login-server-root
+      mountPath: /var/www/html
+  imagePullSecrets:
+  - name: docker-config-secret
+
+  volumes:
+    - name: login-server-root
+      hostPath:
+        path: /workspace
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: login-db-server-pod
+  labels: 
+    app: login-db-server-pod
+spec:
+  restartPolicy: Never
+  containers:
+  - name: login-db-server
+    image: docker.io/joelruiz/login-db-server:v1.0.0
+    env:
+    - name: MYSQL_ROOT_USER
+      valueFrom:
+        secretKeyRef:
+          name: mysql-secret
+          key: MYSQL_ROOT_USER
+    - name: MYSQL_ROOT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: mysql-secret
+          key: MYSQL_ROOT_PASSWORD
+    - name: MYSQL_DATABASE
+      valueFrom:
+        configMapKeyRef:
+          name: mysql-configmap
+          key: MYSQL_DATABASE
+    - name: MYSQL_HOST
+      valueFrom:
+        configMapKeyRef:
+          name: mysql-configmap
+          key: MYSQL_HOST
+    volumeMounts:
+    - name: init-script
+      mountPath: /docker-entrypoint-initdb.d
+    - name: login-databases
+      mountPath: /var/lib/mysql
+
+  imagePullSecrets:
+  - name: docker-config-secret
+  
+  volumes:
+  - name: init-script
+    hostPath:
+      path: /workspace/dbs/login/entrypoint-initdb.d
+  - name: login-databases
+    persistentVolumeClaim:
+      claimName: login-db-server-pvc
+

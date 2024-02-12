@@ -37,6 +37,7 @@ RUN apt-get update && \
     apt-get install -y less vim && \
     apt-get install -y procps && \
     apt-get install -y libzip-dev && \
+    apt-get install -y default-mysql-client && \
     docker-php-ext-install zip && \
     rm -rf /var/lib/apt/lists/*
 

@@ -3,6 +3,8 @@ kind: Pod
 metadata:
   name: kaniko-builder
 spec:
+  restartPolicy: Never
+
   # User init container to check if target images are available in docker hub
   initContainers: 
   - name: kaniko-init
@@ -121,7 +123,6 @@ spec:
       mountPath: /workspace
     - name: docker-secret
       mountPath: /root/.docker
-  restartPolicy: Never
 
   volumes:
   - name: dockerfiles

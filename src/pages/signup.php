@@ -72,6 +72,11 @@ $h_sUValidationInvSts = false;
  */
 $h_sUResendVerifEmailLink = DOMAIN . DOC_ROOT . 'signup';
 
+/**
+ * @var Mail image in base64 format. Defined here to avoid a undefined variable
+ *      so that an error exception is not thrown
+ */
+$mailImagebase64 = '';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
