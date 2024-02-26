@@ -25,6 +25,17 @@ RUN { \
     echo 'error_log = /var/log/php/php_errors.log'; \
 } > /usr/local/etc/php/php.ini
 
+# Copy files to image
+COPY config        /var/www/html/config
+COPY public        /var/www/html/public
+COPY src           /var/www/html/src
+COPY templates     /var/www/html/templates
+COPY vendor        /var/www/html/vendor
+COPY var           /var/www/html/var
+COPY composer.json /var/www/html/composer.json
+COPY composer.lock /var/www/html/composer.lock
+COPY .htaccess     /var/www/html/.htaccess
+
 # Install PDO MySQL extension
 RUN docker-php-ext-install pdo_mysql
 

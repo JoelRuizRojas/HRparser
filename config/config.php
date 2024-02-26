@@ -17,7 +17,6 @@ define('DOC_ROOT', DIRECTORY_SEPARATOR);
 
 /* Get IP address of minio server. At this point this container
  * must be running */
-define('MINIO_SERVER', gethostbyname("minio"));
 define('MINIO_PORT', getenv('MINIO_PORT'));
 define('MINIO_RESOURCES_BUCKT_NAME', getenv('MY_RESOURCES_BUCKET_NAME'));
 
@@ -33,7 +32,12 @@ $password = 'domingo.18.noviembre';                // Password
 // Values for production
 if(DEPLOYMENT_ENV == "production"){
     $server   = 'login-db-server-svc';             // Cluster IP service to communicate with a db pod
-    $port     = 'mariadbport';                     // Port defined in ClusterIP service
+    $port     = getenv('MYSQL_SEVER_PORT');        // Port defined in ClusterIP service
+
+    define('MINIO_SERVER', getenv('NODE_ADDRESS'));
+}
+else if(DEPLOYMENT_ENV == "development"){
+    define('MINIO_SERVER', gethostbyname("minio"));
 }
 
 // DO NOT CHANGE NEXT LINE

@@ -2,17 +2,51 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: login-server-pod
+  namespace: hrparser
   labels:
     app: login-server-pod
 spec:
   containers:
   - name: login-server
     image: docker.io/joelruiz/login-server:v1.0.0
+    imagePullPolicy: Always
     env:
     - name: DEPLOYMENT_ENV
       value: "production"
     - name: ENABLE_LOGS
       value: "true"
+    - name: NODE_ADDRESS
+      value: "172.18.0.2"
+    - name: MINIO_LOGIN_SVR_USER
+      valueFrom:
+        secretKeyRef:
+          name: minio-secret
+          key: MINIO_ROOT_USER
+    - name: MINIO_LOGIN_SVR_PWD
+      valueFrom:
+        secretKeyRef:
+          name: minio-secret
+          key: MINIO_ROOT_PASSWORD
+    - name: MINIO_PORT
+      valueFrom:
+        configMapKeyRef:
+          name: minio-configmap
+          key: MINIO_PORT
+    - name: MY_RESOURCES_BUCKET_NAME
+      valueFrom:
+        configMapKeyRef:
+          name: minio-configmap
+          key: MY_RESOURCES_BUCKET_NAME
+    - name: MY_PRIV_RESOURCES_BUCKET_NAME
+      valueFrom:
+        configMapKeyRef:
+          name: minio-configmap
+          key: MY_PRIV_RESOURCES_BUCKET_NAME
+    - name: MYSQL_PORT
+      valueFrom:
+        configMapKeyRef:
+          name: mysql-configmap
+          key: MYSQL_PORT
     - name: MYSQL_ROOT_USER
       valueFrom:
         secretKeyRef:
@@ -34,24 +68,19 @@ spec:
         - /bin/sh
         - -c
         - |
-          mysql -h login-db-server-svc -P mariadbport -u ${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASSWORD} -e "SELECT 1;"
-    volumeMounts:
-    - name: login-server-root
-      mountPath: /var/www/html
+          mysql -h login-db-server-svc.hrparser.svc.cluster.local -P ${MYSQL_PORT} -u ${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASSWORD} -e "SELECT 1;" &&
+          curl -f http://${NODE_ADDRESS}:${MINIO_PORT}/minio/health/live
+
   imagePullSecrets:
   - name: docker-config-secret
-
-  volumes:
-    - name: login-server-root
-      hostPath:
-        path: /workspace
-
+ 
 ---
 
 apiVersion: v1
 kind: Pod
 metadata:
   name: login-db-server-pod
+  namespace: hrparser
   labels: 
     app: login-db-server-pod
 spec:
@@ -81,8 +110,6 @@ spec:
           name: mysql-configmap
           key: MYSQL_HOST
     volumeMounts:
-    - name: init-script
-      mountPath: /docker-entrypoint-initdb.d
     - name: login-databases
       mountPath: /var/lib/mysql
 
@@ -90,9 +117,6 @@ spec:
   - name: docker-config-secret
   
   volumes:
-  - name: init-script
-    hostPath:
-      path: /workspace/dbs/login/entrypoint-initdb.d
   - name: login-databases
     persistentVolumeClaim:
       claimName: login-db-server-pvc

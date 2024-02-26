@@ -16,6 +16,8 @@ RUN apt-get update && \
     apt-get install -y gettext-base && \
     rm -rf /var/lib/apt/lists/*
 
+COPY dbs/login/entrypoint-initdb.d /docker-entrypoint-initdb.d
+
 # Optionally, you can mount a volume for persistent data
 #VOLUME /var/lib/mysql
 
