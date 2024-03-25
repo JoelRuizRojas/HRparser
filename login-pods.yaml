@@ -16,7 +16,10 @@ spec:
     - name: ENABLE_LOGS
       value: "true"
     - name: NODE_ADDRESS
-      value: "172.18.0.2"
+      valueFrom:
+        configMapKeyRef:
+          name: minio-configmap
+          key: MINIO_IP
     - name: MINIO_LOGIN_SVR_USER
       valueFrom:
         secretKeyRef:
