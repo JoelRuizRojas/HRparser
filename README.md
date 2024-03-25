@@ -83,7 +83,15 @@ kubectl create secret generic mysql-secret --from-literal=MYSQL_ROOT_USER=root -
 kubectl create configmap mysql-configmap --from-literal=MYSQL_DATABASE=HRparserDB --from-literal=MYSQL_HOST=localhost --from-literal=MYSQL_PORT=3306 --namespace=hrparser
 ```
 
-Once all previous resources are set up, execute the site pods with:
+Once all previous resources are set up, define the site volumes and execute the site services and pods with:
+
+```bash
+kubectl apply -f login-volumes.yaml
+```
+
+```bash
+kubectl apply -f login-services.yaml
+```
 
 ```bash
 kubectl apply -f login-pods.yaml
